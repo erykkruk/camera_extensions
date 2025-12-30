@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.24
+
+* Renamed iOS podspec and directory to `camera_extended_ios`
+
 ## 0.9.23
 
 * Renamed library entry point to `camera_extended_ios.dart`

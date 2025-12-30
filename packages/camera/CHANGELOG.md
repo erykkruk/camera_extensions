@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.5
+
+* Updated `camera_extended_ios` dependency to ^0.9.24
+
 ## 0.11.4
 
 * Updated dependencies to latest versions

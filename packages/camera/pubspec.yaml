@@ -3,7 +3,7 @@ description: Extended Flutter camera plugin with native aspect ratio support (16
   Fork of the official camera package with sensor-level aspect ratio configuration.
 repository: https://github.com/erykkruk/camera_extensions
 issue_tracker: https://github.com/erykkruk/camera_extensions/issues
-version: 0.11.4
+version: 0.11.5
 
 environment:
   sdk: ^3.9.0
@@ -19,7 +19,7 @@ flutter:
 
 dependencies:
   camera_extended_android: ^0.6.27
-  camera_extended_ios: ^0.9.23
+  camera_extended_ios: ^0.9.24
   camera_extended_platform_interface: ^2.12.1
   flutter:
     sdk: flutter
