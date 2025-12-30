@@ -1,0 +1,22 @@
+PODS:
+  - camera_extended_ios (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - camera_extended_ios (from `.symlinks/plugins/camera_extended_ios/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  camera_extended_ios:
+    :path: ".symlinks/plugins/camera_extended_ios/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  camera_extended_ios: f44a8b99cfb99324720d261ee63c35f78f9f24b7
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+
+PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e
+
+COCOAPODS: 1.16.2

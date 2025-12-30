@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  camera:
+  camera_extended:
     path: ../packages/camera
 
 dev_dependencies:
