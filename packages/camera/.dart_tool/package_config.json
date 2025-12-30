@@ -51,19 +51,19 @@
     },
     {
       "name": "camera_extended_android",
-      "rootUri": "file:///Users/erykkruk/.pub-cache/hosted/pub.dev/camera_extended_android-0.6.27",
+      "rootUri": "file:///Users/erykkruk/.pub-cache/hosted/pub.dev/camera_extended_android-0.6.28",
       "packageUri": "lib/",
       "languageVersion": "3.9"
     },
     {
       "name": "camera_extended_ios",
-      "rootUri": "file:///Users/erykkruk/.pub-cache/hosted/pub.dev/camera_extended_ios-0.9.23",
+      "rootUri": "file:///Users/erykkruk/.pub-cache/hosted/pub.dev/camera_extended_ios-0.9.25",
       "packageUri": "lib/",
       "languageVersion": "3.9"
     },
     {
       "name": "camera_extended_platform_interface",
-      "rootUri": "file:///Users/erykkruk/.pub-cache/hosted/pub.dev/camera_extended_platform_interface-2.12.1",
+      "rootUri": "file:///Users/erykkruk/.pub-cache/hosted/pub.dev/camera_extended_platform_interface-2.12.2",
       "packageUri": "lib/",
       "languageVersion": "3.8"
     },
