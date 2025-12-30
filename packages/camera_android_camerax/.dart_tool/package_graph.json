@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "camera_extended_android",
-      "version": "0.6.26+2",
+      "version": "0.6.27",
       "dependencies": [
         "async",
         "camera_extended_platform_interface",
@@ -143,7 +143,7 @@
     },
     {
       "name": "camera_extended_platform_interface",
-      "version": "2.12.0",
+      "version": "2.12.1",
       "dependencies": [
         "cross_file",
         "flutter",

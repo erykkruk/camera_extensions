@@ -68,8 +68,8 @@
       "languageVersion": "3.0"
     },
     {
-      "name": "camera_platform_interface",
-      "rootUri": "../../camera_platform_interface",
+      "name": "camera_extended_platform_interface",
+      "rootUri": "file:///Users/erykkruk/.pub-cache/hosted/pub.dev/camera_extended_platform_interface-2.12.1",
       "packageUri": "lib/",
       "languageVersion": "3.8"
     },
@@ -404,7 +404,7 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "camera_avfoundation",
+      "name": "camera_extended_ios",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.9"

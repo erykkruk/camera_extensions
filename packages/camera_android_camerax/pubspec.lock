@@ -93,10 +93,10 @@ packages:
     dependency: "direct main"
     description:
       name: camera_extended_platform_interface
-      sha256: fad231c4cbacd79f217188ea6b0a9985792b27e150404346d9170c7029dc1768
+      sha256: "1fc4f959c914c7357a65abbdf9005aa291a6fefba5c97d7fd494feaad32736ed"
       url: "https://pub.dev"
     source: hosted
-    version: "2.12.0"
+    version: "2.12.1"
   characters:
     dependency: transitive
     description:
