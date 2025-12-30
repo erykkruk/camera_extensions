@@ -201,16 +201,32 @@ final class DefaultCamera: NSObject, Camera {
 
     motionManager.startAccelerometerUpdates()
 
-    if mediaSettings.framesPerSecond != nil {
-      // The frame rate can be changed only on a locked for configuration device.
-      try mediaSettingsAVWrapper.lockDevice(captureDevice)
-      defer { mediaSettingsAVWrapper.unlockDevice(captureDevice) }
+    // The frame rate can be changed only on a locked for configuration device.
+    try mediaSettingsAVWrapper.lockDevice(captureDevice)
+    defer { mediaSettingsAVWrapper.unlockDevice(captureDevice) }
 
-      mediaSettingsAVWrapper.beginConfiguration(for: videoCaptureSession)
-      defer { mediaSettingsAVWrapper.commitConfiguration(for: videoCaptureSession) }
+    mediaSettingsAVWrapper.beginConfiguration(for: videoCaptureSession)
+    defer { mediaSettingsAVWrapper.commitConfiguration(for: videoCaptureSession) }
 
+    // Try to select a format matching the requested aspect ratio
+    if let aspectRatioFormat = FormatUtils.selectBestFormatForAspectRatio(
+      for: captureDevice,
+      aspectRatio: mediaSettings.aspectRatio,
+      resolutionPreset: mediaSettings.resolutionPreset,
+      videoDimensionsConverter: videoDimensionsConverter)
+    {
+      // Use the format that matches the aspect ratio
+      videoCaptureSession.sessionPreset = .inputPriority
+      captureDevice.flutterActiveFormat = aspectRatioFormat
+      let size = videoDimensionsConverter(aspectRatioFormat)
+      previewSize = CGSize(width: CGFloat(size.width), height: CGFloat(size.height))
+      audioCaptureSession.sessionPreset = .inputPriority
+    } else {
+      // Fall back to default preset-based selection
       try setCaptureSessionPreset(mediaSettings.resolutionPreset)
+    }
 
+    if mediaSettings.framesPerSecond != nil {
       FormatUtils.selectBestFormat(
         for: captureDevice,
         mediaSettings: mediaSettings,
@@ -224,10 +240,6 @@ final class DefaultCamera: NSObject, Camera {
         mediaSettingsAVWrapper.setMinFrameDuration(duration, on: captureDevice)
         mediaSettingsAVWrapper.setMaxFrameDuration(duration, on: captureDevice)
       }
-    } else {
-      // If the frame rate is not important fall to a less restrictive
-      // behavior (no configuration locking).
-      try setCaptureSessionPreset(mediaSettings.resolutionPreset)
     }
 
     updateOrientation()

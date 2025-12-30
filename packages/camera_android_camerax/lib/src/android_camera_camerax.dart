@@ -1667,41 +1667,36 @@ class AndroidCameraCameraX extends CameraPlatform {
   ///
   /// Since CameraX doesn't natively support 1:1 aspect ratio, this method
   /// falls back to 4:3 (the closest standard ratio to 1:1).
-  /// The preview widget should handle cropping to achieve 1:1 display.
+  /// Tries to use native 1:1 format if available (e.g., 1088x1088).
+  /// Falls back to 4:3 if 1:1 is not available.
   ///
-  /// Aspect ratio comparison:
-  /// - 1:1 = 1.0 (requested but not supported)
-  /// - 4:3 = 1.333 (fallback - closest to 1:1)
-  /// - 16:9 = 1.777
+  /// Common square formats on Android: 1088x1088, 720x720, 480x480
   ResolutionSelector _getResolutionSelectorForSquare(ResolutionPreset? preset) {
-    // Log fallback behavior
-    // ignore: avoid_print
-    print('[CameraExtensions] 1:1 not supported by CameraX. Using 4:3 fallback.');
-
-    // Use 4:3 dimensions based on preset
-    CameraSize boundSize;
+    // Try native square resolution based on preset
+    CameraSize squareSize;
     switch (preset) {
       case ResolutionPreset.low:
-        boundSize = CameraSize(width: 640, height: 480);
+        squareSize = CameraSize(width: 480, height: 480);
       case ResolutionPreset.medium:
-        boundSize = CameraSize(width: 960, height: 720);
+        squareSize = CameraSize(width: 720, height: 720);
       case ResolutionPreset.high:
-        boundSize = CameraSize(width: 1440, height: 1080);
       case ResolutionPreset.veryHigh:
-        boundSize = CameraSize(width: 1920, height: 1440);
       case ResolutionPreset.ultraHigh:
-        boundSize = CameraSize(width: 2880, height: 2160);
       case ResolutionPreset.max:
       case null:
-        boundSize = CameraSize(width: 1440, height: 1080);
+        squareSize = CameraSize(width: 1088, height: 1088);
     }
 
+    // ignore: avoid_print
+    print('[CameraExtensions] Requesting 1:1 format: ${squareSize.width}x${squareSize.height}');
+
     final resolutionStrategy = ResolutionStrategy(
-      boundSize: boundSize,
-      fallbackRule: ResolutionStrategyFallbackRule.closestLowerThenHigher,
+      boundSize: squareSize,
+      fallbackRule: ResolutionStrategyFallbackRule.closestHigherThenLower,
     );
 
-    // Fallback to 4:3 (closest to 1:1)
+    // CameraX doesn't have AspectRatio.ratio1To1, so we use 4:3 as fallback
+    // but the ResolutionStrategy with square size should prefer square formats
     return ResolutionSelector(
       resolutionStrategy: resolutionStrategy,
       aspectRatioStrategy: AspectRatioStrategy(

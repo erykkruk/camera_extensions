@@ -129,26 +129,11 @@ class _CameraScreenState extends State<CameraScreen> {
       return const Center(child: Text('Camera not available'));
     }
 
-    // W portrait mode proporcje są odwrócone (9:16 zamiast 16:9)
-    final double displayAspectRatio;
-    switch (_selectedAspectRatio) {
-      case CameraAspectRatio.ratio16x9:
-        displayAspectRatio = 9 / 16; // Portrait: 9:16
-      case CameraAspectRatio.ratio4x3:
-        displayAspectRatio = 3 / 4; // Portrait: 3:4
-      case CameraAspectRatio.ratio1x1:
-        displayAspectRatio = 1.0;
-      default:
-        displayAspectRatio = 3 / 4;
-    }
-
+    // Wyświetl preview bez modyfikacji - kamera sama ustawia aspect ratio
     return Container(
       color: Colors.black,
       child: Center(
-        child: AspectRatio(
-          aspectRatio: displayAspectRatio,
-          child: CameraPreview(_controller!),
-        ),
+        child: CameraPreview(_controller!),
       ),
     );
   }
