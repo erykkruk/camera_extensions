@@ -77,10 +77,10 @@ packages:
     dependency: "direct main"
     description:
       name: camera_extended_ios
-      sha256: "5120353b26111d64e087f019e6132583e24df8bbf21d2d69b92efcf6c2a8214f"
+      sha256: "8afeb485a4c51ccf3fd2d85a63125c10632d757b5229ace6c10b2799009fa8be"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.26"
+    version: "0.9.27"
   camera_extended_platform_interface:
     dependency: "direct main"
     description:
