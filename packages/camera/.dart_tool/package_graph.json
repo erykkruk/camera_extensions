@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "camera_extended",
-      "version": "0.11.8",
+      "version": "0.11.9",
       "dependencies": [
         "camera_extended_android",
         "camera_extended_ios",
@@ -103,7 +103,7 @@
     },
     {
       "name": "camera_extended_ios",
-      "version": "0.9.27",
+      "version": "0.9.28",
       "dependencies": [
         "camera_extended_platform_interface",
         "flutter",
