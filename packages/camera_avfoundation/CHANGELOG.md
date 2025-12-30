@@ -7,7 +7,7 @@
 ## 0.9.23
 
 * Renamed library entry point to `camera_extended_ios.dart`
-* Updated dependency to `camera_extended_platform_interface: ^2.12.1`
+* Updated dependency to `camera_extended_platform_interface: ^2.12.2`
 
 ## 0.9.22+8
 

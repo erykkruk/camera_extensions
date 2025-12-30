@@ -20,7 +20,7 @@ flutter:
 dependencies:
   camera_extended_android: ^0.6.27
   camera_extended_ios: ^0.9.24
-  camera_extended_platform_interface: ^2.12.1
+  camera_extended_platform_interface: ^2.12.2
   flutter:
     sdk: flutter
   flutter_plugin_android_lifecycle: ^2.0.2

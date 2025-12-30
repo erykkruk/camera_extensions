@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "camera_extended_platform_interface",
-      "version": "2.12.1",
+      "version": "2.12.2",
       "dependencies": [
         "cross_file",
         "flutter",

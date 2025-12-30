@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.12.2
+
+* Version bump for pub.dev publication
+
 ## 2.12.1
 
 * Renamed library entry point to `camera_extended_platform_interface.dart`

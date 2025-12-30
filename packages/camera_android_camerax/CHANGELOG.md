@@ -3,7 +3,7 @@
 ## 0.6.27
 
 * Renamed library entry point to `camera_extended_android.dart`
-* Updated dependency to `camera_extended_platform_interface: ^2.12.1`
+* Updated dependency to `camera_extended_platform_interface: ^2.12.2`
 
 ## 0.6.26+2
 
