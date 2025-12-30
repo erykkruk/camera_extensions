@@ -1,26 +1,44 @@
-# camera_platform_interface
+# camera_extended_platform_interface
 
-A common platform interface for the [`camera`][1] plugin.
+Platform interface for [`camera_extended`](https://pub.dev/packages/camera_extended) plugin with native aspect ratio support.
 
-This interface allows platform-specific implementations of the `camera`
-plugin, as well as the plugin itself, to ensure they are supporting the
-same interface.
+## Features
 
-# Usage
+This package extends the original `camera_platform_interface` with:
 
-To implement a new platform-specific implementation of `camera`, extend
-[`CameraPlatform`][2] with an implementation that performs the
-platform-specific behavior, and when you register your plugin, set the default
-`CameraPlatform` by calling
-`CameraPlatform.instance = MyPlatformCamera()`.
+* **CameraAspectRatio enum** - Aspect ratio selection (16:9, 4:3, 1:1)
+* **MediaSettings.aspectRatio** - Configure aspect ratio at sensor level
 
-# Note on breaking changes
+## Usage
 
-Strongly prefer non-breaking changes (such as adding a method to the interface)
-over breaking changes for this package.
+This package is used by platform-specific implementations:
+- [`camera_extended_android`](https://pub.dev/packages/camera_extended_android)
+- [`camera_extended_ios`](https://pub.dev/packages/camera_extended_ios)
 
-See https://flutter.dev/go/platform-interface-breaking-changes for a discussion
-on why a less-clean interface is preferable to a breaking change.
+To implement a new platform-specific implementation, extend `CameraPlatform` with an implementation that performs the platform-specific behavior.
 
-[1]: ../camera
-[2]: lib/camera_platform_interface.dart
+## API
+
+```dart
+/// Aspect ratio options for camera configuration.
+enum CameraAspectRatio {
+  ratio16x9,    // 16:9 widescreen
+  ratio4x3,     // 4:3 standard
+  ratio1x1,     // 1:1 square
+  ratioDefault, // Camera's default
+}
+
+/// Media settings with aspect ratio support.
+class MediaSettings {
+  final ResolutionPreset? resolutionPreset;
+  final int? fps;
+  final int? videoBitrate;
+  final int? audioBitrate;
+  final bool enableAudio;
+  final CameraAspectRatio aspectRatio; // NEW
+}
+```
+
+## Based On
+
+Fork of [`camera_platform_interface`](https://pub.dev/packages/camera_platform_interface) version 2.12.0.

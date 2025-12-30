@@ -1,117 +1,109 @@
-# Camera Plugin
+# camera_extended
 
-<?code-excerpt path-base="example/lib"?>
+Extended Flutter camera plugin with **native aspect ratio support** (16:9, 4:3, 1:1).
 
-[![pub package](https://img.shields.io/pub/v/camera.svg)](https://pub.dev/packages/camera)
+Fork of the official [camera](https://pub.dev/packages/camera) package with sensor-level aspect ratio configuration for both iOS and Android.
 
-A Flutter plugin for iOS, Android and Web allowing access to the device cameras.
+|                | Android | iOS       |
+|----------------|---------|-----------|
+| **Support**    | SDK 24+ | iOS 13.0+ |
 
-|                | Android | iOS       | Web                    |
-|----------------|---------|-----------|------------------------|
-| **Support**    | SDK 24+ | iOS 13.0+ | [See `camera_web `][1] |
+## What's New vs Original Camera Package
+
+| Feature | camera | camera_extended |
+|---------|--------|-----------------|
+| Aspect Ratio Control | No | **Yes** (16:9, 4:3, 1:1) |
+| Native 1:1 Square | No | **Yes** (Android) |
+| Sensor-Level Config | No | **Yes** |
 
 ## Features
 
-* Display live camera preview in a widget.
-* Snapshots can be captured and saved to a file.
-* Record video.
-* Add access to the image stream from Dart.
+- **Native Aspect Ratio Selection** - Configure camera aspect ratio at the sensor level
+- **1:1 Square Format** - Native 1:1 on Android (1088x1088), falls back to 4:3 on iOS
+- **4:3 Standard Format** - Classic aspect ratio with wider field of view
+- **16:9 Widescreen Format** - Modern widescreen ratio
+- Full compatibility with original `camera` package API
 
-## Setup
+## Why This Package?
 
-### iOS
+The standard `camera` package doesn't allow you to configure the aspect ratio at the native level. This package extends it to:
 
-Add two rows to the `ios/Runner/Info.plist`:
+1. Request specific aspect ratios from the camera sensor
+2. Get wider field of view with 4:3 or 1:1 vs 16:9
+3. Capture square photos/videos natively on supported devices
 
-* one with the key `Privacy - Camera Usage Description` and a usage description.
-* and one with the key `Privacy - Microphone Usage Description` and a usage description.
+### Aspect Ratio Comparison
 
-If editing `Info.plist` as text, add:
+| Ratio | Field of View | Use Case |
+|-------|---------------|----------|
+| 16:9  | Narrowest     | Video, Widescreen |
+| 4:3   | Wider         | Photos, Standard |
+| 1:1   | Square        | Social Media, Profile Photos |
 
-```xml
-<key>NSCameraUsageDescription</key>
-<string>your usage description here</string>
-<key>NSMicrophoneUsageDescription</key>
-<string>your usage description here</string>
+## Installation
+
+Add to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  camera_extended: ^1.0.0
 ```
 
-### Android
+## Usage
 
-The endorsed [`camera_android_camerax`][2] implementation of the camera plugin built with CameraX has
-better support for more devices than `camera_android`, but has some limitations; please see [this list][3]
-for more details. If you wish to use the [`camera_android`][4] implementation of the camera plugin
-built with Camera2 that lacks these limitations, please follow [these instructions][5].
+### Basic Setup
 
-If you wish to allow image streaming while your app is in the background, there are additional steps required;
-please see [these instructions][6] for more details.
-
-### Web integration
-
-For web integration details, see the
-[`camera_web` package](https://pub.dev/packages/camera_web).
-
-### Handling Lifecycle states
-
-As of version [0.5.0](https://github.com/flutter/packages/blob/main/packages/camera/CHANGELOG.md#050) of the camera plugin, lifecycle changes are no longer handled by the plugin. This means developers are now responsible to control camera resources when the lifecycle state is updated. Failure to do so might lead to unexpected behavior (for example as described in issue [#39109](https://github.com/flutter/flutter/issues/39109)). Handling lifecycle changes can be done by overriding the `didChangeAppLifecycleState` method like so:
-
-<?code-excerpt "main.dart (AppLifecycle)"?>
 ```dart
-@override
-void didChangeAppLifecycleState(AppLifecycleState state) {
-  final CameraController? cameraController = controller;
+import 'package:camera_extended/camera_extended.dart';
 
-  // App state changed before we got the chance to initialize.
-  if (cameraController == null || !cameraController.value.isInitialized) {
-    return;
-  }
-
-  if (state == AppLifecycleState.inactive) {
-    cameraController.dispose();
-  } else if (state == AppLifecycleState.resumed) {
-    _initializeCameraController(cameraController.description);
-  }
-}
-```
-
-### Handling camera access permissions
-
-Permission errors may be thrown when initializing the camera controller, and you are expected to handle them properly.
-
-Here is a list of all permission error codes that can be thrown:
-
-- `CameraAccessDenied`: Thrown when user denies the camera access permission.
-
-- `CameraAccessDeniedWithoutPrompt`: iOS only for now. Thrown when user has previously denied the permission. iOS does not allow prompting alert dialog a second time. Users will have to go to Settings > Privacy > Camera in order to enable camera access.
-
-- `CameraAccessRestricted`: iOS only for now. Thrown when camera access is restricted and users cannot grant permission (parental control).
-
-- `AudioAccessDenied`: Thrown when user denies the audio access permission.
-
-- `AudioAccessDeniedWithoutPrompt`: iOS only for now. Thrown when user has previously denied the permission. iOS does not allow prompting alert dialog a second time. Users will have to go to Settings > Privacy > Microphone in order to enable audio access.
-
-- `AudioAccessRestricted`: iOS only for now. Thrown when audio access is restricted and users cannot grant permission (parental control).
-
-### Example
-
-Here is a small example flutter app displaying a full screen camera preview.
-
-<?code-excerpt "readme_full_example.dart (FullAppExample)"?>
-```dart
-import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
-
-late List<CameraDescription> _cameras;
+late List<CameraDescription> cameras;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
+  runApp(MyApp());
+}
+```
 
-  _cameras = await availableCameras();
+### Initialize with Aspect Ratio
+
+```dart
+final controller = CameraController(
+  cameras.first,
+  ResolutionPreset.high,
+  enableAudio: false,
+  aspectRatio: CameraAspectRatio.ratio4x3, // NEW: aspect ratio parameter
+);
+
+await controller.initialize();
+```
+
+### Available Aspect Ratios
+
+```dart
+enum CameraAspectRatio {
+  ratio16x9,    // 16:9 widescreen
+  ratio4x3,     // 4:3 standard
+  ratio1x1,     // 1:1 square
+  ratioDefault, // Camera's default ratio
+}
+```
+
+### Complete Example
+
+```dart
+import 'package:camera_extended/camera_extended.dart';
+import 'package:flutter/material.dart';
+
+late List<CameraDescription> cameras;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   runApp(const CameraApp());
 }
 
-/// CameraApp is the Main Application.
 class CameraApp extends StatefulWidget {
-  /// Default Constructor
   const CameraApp({super.key});
 
   @override
@@ -119,56 +111,152 @@ class CameraApp extends StatefulWidget {
 }
 
 class _CameraAppState extends State<CameraApp> {
-  late CameraController controller;
+  CameraController? _controller;
+  CameraAspectRatio _aspectRatio = CameraAspectRatio.ratio4x3;
 
   @override
   void initState() {
     super.initState();
-    controller = CameraController(_cameras[0], ResolutionPreset.max);
-    controller
-        .initialize()
-        .then((_) {
-          if (!mounted) {
-            return;
-          }
-          setState(() {});
-        })
-        .catchError((Object e) {
-          if (e is CameraException) {
-            switch (e.code) {
-              case 'CameraAccessDenied':
-                // Handle access errors here.
-                break;
-              default:
-                // Handle other errors here.
-                break;
-            }
-          }
-        });
+    _initCamera();
+  }
+
+  Future<void> _initCamera() async {
+    await _controller?.dispose();
+
+    _controller = CameraController(
+      cameras.first,
+      ResolutionPreset.high,
+      aspectRatio: _aspectRatio, // Set aspect ratio here
+    );
+
+    await _controller!.initialize();
+    if (mounted) setState(() {});
+  }
+
+  void _changeAspectRatio(CameraAspectRatio ratio) {
+    setState(() => _aspectRatio = ratio);
+    _initCamera(); // Reinitialize camera with new ratio
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!controller.value.isInitialized) {
-      return Container();
-    }
-    return MaterialApp(home: CameraPreview(controller));
+    return MaterialApp(
+      home: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: _controller?.value.isInitialized == true
+                  ? CameraPreview(_controller!)
+                  : const Center(child: CircularProgressIndicator()),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: SegmentedButton<CameraAspectRatio>(
+                segments: const [
+                  ButtonSegment(value: CameraAspectRatio.ratio16x9, label: Text('16:9')),
+                  ButtonSegment(value: CameraAspectRatio.ratio4x3, label: Text('4:3')),
+                  ButtonSegment(value: CameraAspectRatio.ratio1x1, label: Text('1:1')),
+                ],
+                selected: {_aspectRatio},
+                onSelectionChanged: (selected) => _changeAspectRatio(selected.first),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
-
 ```
 
-For a more elaborate usage example see [here](https://github.com/flutter/packages/tree/main/packages/camera/camera/example).
+## Platform Support
 
-[1]: https://pub.dev/packages/camera_web#limitations-on-the-web-platform
-[2]: https://pub.dev/packages/camera_android_camerax
-[3]: https://pub.dev/packages/camera_android_camerax#limitations
-[4]: https://pub.dev/packages/camera_android
-[5]: https://pub.dev/packages/camera_android#usage
-[6]: https://pub.dev/packages/camera_android_camerax#allowing-image-streaming-in-the-background
+| Platform | 16:9 | 4:3 | 1:1 |
+|----------|------|-----|-----|
+| Android  | Native | Native | Native (1088x1088) |
+| iOS      | Native | Native | Fallback to 4:3 |
+
+### Android
+
+Uses CameraX with `ResolutionSelector` to request specific aspect ratios. Many Android devices support native 1:1 formats (e.g., 1088x1088, 720x720).
+
+### iOS
+
+Uses AVFoundation with format selection based on aspect ratio. iOS cameras typically don't offer native 1:1 formats, so 1:1 falls back to 4:3.
+
+## Permissions
+
+### Android
+
+Add to `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+```
+
+### iOS
+
+Add to `Info.plist`:
+
+```xml
+<key>NSCameraUsageDescription</key>
+<string>Camera access is required for taking photos.</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>Microphone access is required for recording video.</string>
+```
+
+## Migration from `camera` Package
+
+This package is API-compatible with the original `camera` package. To migrate:
+
+1. Replace `camera` with `camera_extended` in `pubspec.yaml`
+2. Update imports: `import 'package:camera_extended/camera_extended.dart'`
+3. Optionally add `aspectRatio` parameter to `CameraController`
+
+```dart
+// Before (camera package)
+import 'package:camera/camera.dart';
+CameraController(camera, ResolutionPreset.high);
+
+// After (camera_extended)
+import 'package:camera_extended/camera_extended.dart';
+CameraController(camera, ResolutionPreset.high, aspectRatio: CameraAspectRatio.ratio4x3);
+```
+
+## Handling Lifecycle States
+
+Same as the original camera package - you need to handle lifecycle changes:
+
+```dart
+@override
+void didChangeAppLifecycleState(AppLifecycleState state) {
+  final CameraController? cameraController = controller;
+
+  if (cameraController == null || !cameraController.value.isInitialized) {
+    return;
+  }
+
+  if (state == AppLifecycleState.inactive) {
+    cameraController.dispose();
+  } else if (state == AppLifecycleState.resumed) {
+    _initCamera();
+  }
+}
+```
+
+## License
+
+BSD 3-Clause License - same as the original Flutter camera package.
+
+## Credits
+
+Based on the official [Flutter camera plugin](https://pub.dev/packages/camera) by the Flutter team.
+
+Extended with native aspect ratio support.

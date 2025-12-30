@@ -1,9 +1,8 @@
-name: camera
-description: A Flutter plugin for controlling the camera. Supports previewing
-  the camera feed, capturing images and video, and streaming image buffers to
-  Dart.
-repository: https://github.com/flutter/packages/tree/main/packages/camera/camera
-issue_tracker: https://github.com/flutter/flutter/issues?q=is%3Aissue+is%3Aopen+label%3A%22p%3A+camera%22
+name: camera_extended
+description: Extended Flutter camera plugin with native aspect ratio support (16:9, 4:3, 1:1).
+  Fork of the official camera package with sensor-level aspect ratio configuration.
+repository: https://github.com/erykkruk/camera_extensions
+issue_tracker: https://github.com/erykkruk/camera_extensions/issues
 version: 0.11.3
 
 environment:
@@ -14,17 +13,14 @@ flutter:
   plugin:
     platforms:
       android:
-        default_package: camera_android_camerax
+        default_package: camera_extended_android
       ios:
-        default_package: camera_avfoundation
+        default_package: camera_extended_ios
 
 dependencies:
-  camera_android_camerax:
-    path: ../camera_android_camerax
-  camera_avfoundation:
-    path: ../camera_avfoundation
-  camera_platform_interface:
-    path: ../camera_platform_interface
+  camera_extended_android: ^0.6.26+2
+  camera_extended_ios: ^0.9.22+8
+  camera_extended_platform_interface: ^2.12.0
   flutter:
     sdk: flutter
   flutter_plugin_android_lifecycle: ^2.0.2

@@ -235,6 +235,11 @@ class CameraController extends ValueNotifier<CameraValue> {
   ///
   /// - [resolutionPreset] affect the quality of video recording and image capture.
   /// - [enableAudio] controls audio presence in recorded video.
+  /// - [aspectRatio] controls the camera aspect ratio at the native sensor level.
+  ///   Supports [CameraAspectRatio.ratio16x9], [CameraAspectRatio.ratio4x3],
+  ///   [CameraAspectRatio.ratio1x1], and [CameraAspectRatio.ratioDefault].
+  ///   On Android, native 1:1 formats are used when available.
+  ///   On iOS, 1:1 falls back to 4:3 as iOS doesn't support native square formats.
   ///
   /// Following parameters (if present) will overwrite [resolutionPreset] settings:
   /// - [fps] controls rate at which frames should be captured by the camera in frames per second.

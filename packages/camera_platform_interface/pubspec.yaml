@@ -1,9 +1,7 @@
-name: camera_platform_interface
-description: A common platform interface for the camera plugin.
-repository: https://github.com/flutter/packages/tree/main/packages/camera/camera_platform_interface
-issue_tracker: https://github.com/flutter/flutter/issues?q=is%3Aissue+is%3Aopen+label%3A%22p%3A+camera%22
-# NOTE: We strongly prefer non-breaking changes, even at the expense of a
-# less-clean API. See https://flutter.dev/go/platform-interface-breaking-changes
+name: camera_extended_platform_interface
+description: Platform interface for camera_extended plugin with native aspect ratio support (16:9, 4:3, 1:1).
+repository: https://github.com/erykkruk/camera_extensions
+issue_tracker: https://github.com/erykkruk/camera_extensions/issues
 version: 2.12.0
 
 environment:

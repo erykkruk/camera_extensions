@@ -1,7 +1,7 @@
-name: camera_android_camerax
-description: Android implementation of the camera plugin using the CameraX library.
-repository: https://github.com/flutter/packages/tree/main/packages/camera/camera_android_camerax
-issue_tracker: https://github.com/flutter/flutter/issues?q=is%3Aissue+is%3Aopen+label%3A%22p%3A+camera%22
+name: camera_extended_android
+description: Android implementation of camera_extended plugin with native aspect ratio support (16:9, 4:3, 1:1).
+repository: https://github.com/erykkruk/camera_extensions
+issue_tracker: https://github.com/erykkruk/camera_extensions/issues
 version: 0.6.26+2
 
 environment:
@@ -10,7 +10,7 @@ environment:
 
 flutter:
   plugin:
-    implements: camera
+    implements: camera_extended
     platforms:
       android:
         package: io.flutter.plugins.camerax
@@ -19,8 +19,7 @@ flutter:
 
 dependencies:
   async: ^2.5.0
-  camera_platform_interface:
-    path: ../camera_platform_interface
+  camera_extended_platform_interface: ^2.12.0
   flutter:
     sdk: flutter
   meta: ^1.7.0
