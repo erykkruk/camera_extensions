@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 // #docregion FullAppExample
-import 'package:camera/camera.dart';
+import 'package:camera_extended/camera_extended.dart';
 import 'package:flutter/material.dart';
 
 late List<CameraDescription> _cameras;

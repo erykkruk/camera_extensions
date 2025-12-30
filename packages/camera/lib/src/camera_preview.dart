@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../camera.dart';
+import '../camera_extended.dart';
 
 /// A widget showing a live camera preview.
 class CameraPreview extends StatelessWidget {

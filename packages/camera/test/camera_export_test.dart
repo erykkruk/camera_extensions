@@ -4,7 +4,7 @@
 
 // ignore_for_file: unnecessary_statements
 
-import 'package:camera/camera.dart' as main_file;
+import 'package:camera_extended/camera_extended.dart' as main_file;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
