@@ -6,9 +6,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:async/async.dart';
-import 'package:camera_platform_interface/camera_platform_interface.dart';
-import 'package:camera_platform_interface/src/method_channel/method_channel_camera.dart';
-import 'package:camera_platform_interface/src/utils/utils.dart';
+import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
+import 'package:camera_extended_platform_interface/src/method_channel/method_channel_camera.dart';
+import 'package:camera_extended_platform_interface/src/utils/utils.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';

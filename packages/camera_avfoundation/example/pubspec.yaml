@@ -1,5 +1,5 @@
-name: camera_example
-description: Demonstrates how to use the camera plugin.
+name: camera_extended_ios_example
+description: Demonstrates how to use the camera_extended_ios plugin.
 publish_to: none
 
 environment:
@@ -7,14 +7,15 @@ environment:
   flutter: ">=3.35.0"
 
 dependencies:
-  camera_avfoundation:
+  camera_extended_ios:
     # When depending on this package from a real application you should use:
-    #   camera_avfoundation: ^x.y.z
+    #   camera_extended_ios: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.
     path: ../
-  camera_platform_interface: ^2.10.0
+  camera_extended_platform_interface:
+    path: ../../camera_platform_interface
   flutter:
     sdk: flutter
   path_provider: ^2.0.0

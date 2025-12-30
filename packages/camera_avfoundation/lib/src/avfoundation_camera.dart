@@ -5,7 +5,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -276,7 +276,7 @@ class AVFoundationCamera extends CameraPlatform {
 
   void _startStreamListener() {
     const cameraEventChannel = EventChannel(
-      'plugins.flutter.io/camera_avfoundation/imageStream',
+      'plugins.flutter.io/camera_extended_ios/imageStream',
     );
     _platformImageStreamSubscription = cameraEventChannel
         .receiveBroadcastStream()

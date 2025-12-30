@@ -4,7 +4,7 @@
 
 // ignore_for_file: always_specify_types
 
-import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

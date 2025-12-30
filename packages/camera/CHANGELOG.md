@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.4
+
+* Updated dependencies to latest versions
+
 ## 0.11.3
 
 Fork of `camera` package with native aspect ratio support.

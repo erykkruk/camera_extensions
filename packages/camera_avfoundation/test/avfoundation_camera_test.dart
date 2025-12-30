@@ -6,10 +6,10 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:async/async.dart';
-import 'package:camera_avfoundation/src/avfoundation_camera.dart';
-import 'package:camera_avfoundation/src/messages.g.dart';
-import 'package:camera_avfoundation/src/utils.dart';
-import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_extended_ios/src/avfoundation_camera.dart';
+import 'package:camera_extended_ios/src/messages.g.dart';
+import 'package:camera_extended_ios/src/utils.dart';
+import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';

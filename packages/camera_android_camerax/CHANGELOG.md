@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.27
+
+* Renamed library entry point to `camera_extended_android.dart`
+* Updated dependency to `camera_extended_platform_interface: ^2.12.1`
+
 ## 0.6.26+2
 
 Fork of `camera_android_camerax` with native aspect ratio support.

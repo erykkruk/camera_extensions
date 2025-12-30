@@ -4,7 +4,7 @@
 
 import 'package:flutter/foundation.dart' show immutable;
 
-import '../../camera_platform_interface.dart';
+import '../../camera_extended_platform_interface.dart';
 
 /// Generic Event coming from the native side of Camera,
 /// related to a specific camera module.

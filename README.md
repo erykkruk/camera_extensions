@@ -13,7 +13,10 @@ A Flutter package that extends the official [camera](https://pub.dev/packages/ca
 - **Easy Integration** - Drop-in widgets and extensions for CameraController
 - **Aspect Ratio Control** - Force any aspect ratio on camera preview
 - **Lightweight** - Only depends on the camera package
-
+cd packages/camera_platform_interface && flutter pub publish
+  cd packages/camera_android_camerax && flutter pub publish
+  cd packages/camera_avfoundation && flutter pub publish
+  cd packages/camera && flutter pub publish
 ## Features
 
 | Feature | Status |

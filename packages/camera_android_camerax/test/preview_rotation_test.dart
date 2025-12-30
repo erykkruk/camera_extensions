@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:camera_android_camerax/camera_android_camerax.dart';
-import 'package:camera_android_camerax/src/camerax_library.dart';
-import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_extended_android/camera_extended_android.dart';
+import 'package:camera_extended_android/src/camerax_library.dart';
+import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart'
     show MatrixUtils, RotatedBox, Texture, Transform;

@@ -4,7 +4,7 @@
 
 import 'dart:typed_data';
 
-import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
 
 /// Converts method channel call [data] for `receivedImageStreamData` to a
 /// [CameraImageData].

@@ -4,7 +4,7 @@
 
 import 'package:flutter/services.dart';
 
-import '../../camera_platform_interface.dart';
+import '../../camera_extended_platform_interface.dart';
 
 /// Parses a string into a corresponding CameraLensDirection.
 CameraLensDirection parseCameraLensDirection(String string) {

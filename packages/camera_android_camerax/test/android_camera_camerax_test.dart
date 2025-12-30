@@ -6,9 +6,9 @@ import 'dart:async';
 import 'dart:math' show Point;
 
 import 'package:async/async.dart';
-import 'package:camera_android_camerax/camera_android_camerax.dart';
-import 'package:camera_android_camerax/src/camerax_library.dart';
-import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_extended_android/camera_extended_android.dart';
+import 'package:camera_extended_android/src/camerax_library.dart';
+import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
 import 'package:flutter/services.dart'
     show DeviceOrientation, PlatformException, Uint8List;
 import 'package:flutter_test/flutter_test.dart';

@@ -4,7 +4,7 @@
 
 import 'package:flutter/foundation.dart';
 
-import '../../camera_platform_interface.dart';
+import '../../camera_extended_platform_interface.dart';
 
 /// Options for configuring camera streaming.
 ///

@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:math' show Point;
 
 import 'package:async/async.dart';
-import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
 import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:flutter/services.dart'
     show DeviceOrientation, PlatformException;

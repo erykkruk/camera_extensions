@@ -4,8 +4,8 @@
 
 import 'dart:typed_data';
 
-import 'package:camera_avfoundation/src/type_conversion.dart';
-import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_extended_ios/src/type_conversion.dart';
+import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

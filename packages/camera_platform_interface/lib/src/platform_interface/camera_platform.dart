@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import '../../camera_platform_interface.dart';
+import '../../camera_extended_platform_interface.dart';
 import '../method_channel/method_channel_camera.dart';
 
 /// The interface that implementations of camera must implement.

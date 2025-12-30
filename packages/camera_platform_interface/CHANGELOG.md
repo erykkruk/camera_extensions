@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.12.1
+
+* Renamed library entry point to `camera_extended_platform_interface.dart`
+
 ## 2.12.0
 
 Fork of `camera_platform_interface` with native aspect ratio support.
