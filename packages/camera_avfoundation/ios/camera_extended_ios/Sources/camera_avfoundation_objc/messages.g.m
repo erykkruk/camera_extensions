@@ -484,7 +484,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.getAvailableCameras", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.getAvailableCameras", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -502,7 +502,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.create", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.create", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -523,7 +523,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.initialize", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.initialize", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -545,7 +545,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.startImageStream", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.startImageStream", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -563,7 +563,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.stopImageStream", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.stopImageStream", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -584,7 +584,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.receivedImageStreamData", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.receivedImageStreamData", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -603,7 +603,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.dispose", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.dispose", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -623,7 +623,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.lockCaptureOrientation", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.lockCaptureOrientation", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -645,7 +645,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.unlockCaptureOrientation", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.unlockCaptureOrientation", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -664,7 +664,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.takePicture", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.takePicture", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -682,7 +682,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.prepareForVideoRecording", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.prepareForVideoRecording", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -701,7 +701,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.startVideoRecording", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.startVideoRecording", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -721,7 +721,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.stopVideoRecording", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.stopVideoRecording", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -739,7 +739,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.pauseVideoRecording", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.pauseVideoRecording", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -757,7 +757,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.resumeVideoRecording", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.resumeVideoRecording", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -775,7 +775,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.setFlashMode", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.setFlashMode", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -796,7 +796,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.setExposureMode", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.setExposureMode", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -819,7 +819,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.setExposurePoint", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.setExposurePoint", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -839,7 +839,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.getMinExposureOffset", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.getMinExposureOffset", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -857,7 +857,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.getMaxExposureOffset", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.getMaxExposureOffset", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -875,7 +875,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.setExposureOffset", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.setExposureOffset", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -895,7 +895,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.setFocusMode", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.setFocusMode", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -918,7 +918,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.setFocusPoint", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.setFocusPoint", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -938,7 +938,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.getMinZoomLevel", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.getMinZoomLevel", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -956,7 +956,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.getMaxZoomLevel", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.getMaxZoomLevel", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -974,7 +974,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.setZoomLevel", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.setZoomLevel", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -994,7 +994,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.pausePreview", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.pausePreview", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -1012,7 +1012,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.resumePreview", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.resumePreview", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -1032,7 +1032,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.updateDescriptionWhileRecording", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.updateDescriptionWhileRecording", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -1052,7 +1052,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraApi.setImageFileFormat", messageChannelSuffix]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.setImageFileFormat", messageChannelSuffix]
         binaryMessenger:binaryMessenger
         codec:FCPGetMessagesCodec()];
     if (api) {
@@ -1089,7 +1089,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   return self;
 }
 - (void)deviceOrientationChangedOrientation:(FCPPlatformDeviceOrientation)arg_orientation completion:(void (^)(FlutterError *_Nullable))completion {
-  NSString *channelName = [NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraGlobalEventApi.deviceOrientationChanged", _messageChannelSuffix];
+  NSString *channelName = [NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraGlobalEventApi.deviceOrientationChanged", _messageChannelSuffix];
   FlutterBasicMessageChannel *channel =
     [FlutterBasicMessageChannel
       messageChannelWithName:channelName
@@ -1128,7 +1128,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   return self;
 }
 - (void)initializedWithState:(FCPPlatformCameraState *)arg_initialState completion:(void (^)(FlutterError *_Nullable))completion {
-  NSString *channelName = [NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraEventApi.initialized", _messageChannelSuffix];
+  NSString *channelName = [NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraEventApi.initialized", _messageChannelSuffix];
   FlutterBasicMessageChannel *channel =
     [FlutterBasicMessageChannel
       messageChannelWithName:channelName
@@ -1147,7 +1147,7 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
   }];
 }
 - (void)reportError:(NSString *)arg_message completion:(void (^)(FlutterError *_Nullable))completion {
-  NSString *channelName = [NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_avfoundation.CameraEventApi.error", _messageChannelSuffix];
+  NSString *channelName = [NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraEventApi.error", _messageChannelSuffix];
   FlutterBasicMessageChannel *channel =
     [FlutterBasicMessageChannel
       messageChannelWithName:channelName
