@@ -25,6 +25,9 @@ A Flutter plugin to use the camera from your Flutter app with native aspect rati
   s.dependency 'Flutter'
 
   s.platform = :ios, '13.0'
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
+  s.pod_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES',
+    'HEADER_SEARCH_PATHS' => '"$(PODS_TARGET_SRCROOT)/camera_extended_ios/Sources/camera_avfoundation_objc/include/camera_avfoundation"'
+  }
   s.resource_bundles = {'camera_extended_ios_privacy' => ['camera_extended_ios/Sources/camera_avfoundation/Resources/PrivacyInfo.xcprivacy']}
 end

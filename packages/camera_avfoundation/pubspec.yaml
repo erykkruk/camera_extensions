@@ -2,7 +2,7 @@ name: camera_extended_ios
 description: iOS implementation of camera_extended plugin with native aspect ratio support (16:9, 4:3, 1:1).
 repository: https://github.com/erykkruk/camera_extensions
 issue_tracker: https://github.com/erykkruk/camera_extensions/issues
-version: 0.9.27
+version: 0.9.28
 
 environment:
   sdk: ^3.9.0

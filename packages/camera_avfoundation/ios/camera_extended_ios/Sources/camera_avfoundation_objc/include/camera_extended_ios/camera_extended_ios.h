@@ -3,4 +3,5 @@
 // found in the LICENSE file.
 
 // Umbrella header for camera_extended_ios module
-#import "../camera_avfoundation/camera_avfoundation.h"
+#import "QueueUtils.h"
+#import "messages.g.h"
