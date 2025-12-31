@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.11.11
+
+* Updated documentation and README consistency
+* Updated `camera_extended_ios` dependency to ^0.9.30
+* Updated `camera_extended_android` dependency to ^0.6.29
+
+## 0.11.10
+
+* Version bump for pub.dev publication
+
+## 0.11.9
+
+* Updated dependencies to latest versions
+
+## 0.11.8
+
+* Minor bug fixes and improvements
+
+## 0.11.7
+
+* Updated `camera_extended_ios` dependency to ^0.9.28
+
+## 0.11.6
+
+* Updated `camera_extended_android` dependency to ^0.6.28
+
 ## 0.11.5
 
 * Updated `camera_extended_ios` dependency to ^0.9.24

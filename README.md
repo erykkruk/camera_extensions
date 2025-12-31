@@ -1,54 +1,123 @@
-# camera_extensions
+# camera_extended
 
-[![pub package](https://img.shields.io/pub/v/camera_extensions.svg)](https://pub.dev/packages/camera_extensions)
-[![likes](https://img.shields.io/pub/likes/camera_extensions)](https://pub.dev/packages/camera_extensions/score)
-[![popularity](https://img.shields.io/pub/popularity/camera_extensions)](https://pub.dev/packages/camera_extensions/score)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![pub package](https://img.shields.io/pub/v/camera_extended.svg)](https://pub.dev/packages/camera_extended)
+[![likes](https://img.shields.io/pub/likes/camera_extended)](https://pub.dev/packages/camera_extended/score)
+[![popularity](https://img.shields.io/pub/popularity/camera_extended)](https://pub.dev/packages/camera_extended/score)
+[![License: BSD-3](https://img.shields.io/badge/License-BSD--3-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-A Flutter package that extends the official [camera](https://pub.dev/packages/camera) package with additional features. Add aspect ratio control, preview enhancements, and more to your camera implementation.
+Extended Flutter camera plugin with **native aspect ratio support** (16:9, 4:3, 1:1).
 
-## Why camera_extensions?
+Fork of the official [camera](https://pub.dev/packages/camera) package with sensor-level aspect ratio configuration for both iOS and Android.
 
-- **No Native Code** - Pure Dart extensions, works with existing camera setup
-- **Easy Integration** - Drop-in widgets and extensions for CameraController
-- **Aspect Ratio Control** - Force any aspect ratio on camera preview
-- **Lightweight** - Only depends on the camera package
+|                | Android | iOS       |
+|----------------|---------|-----------|
+| **Support**    | SDK 24+ | iOS 13.0+ |
+
+## What's New vs Original Camera Package
+
+| Feature | camera | camera_extended |
+|---------|--------|-----------------|
+| Aspect Ratio Control | No | **Yes** (16:9, 4:3, 1:1) |
+| Native 1:1 Square | No | **Yes** (Android) |
+| Sensor-Level Config | No | **Yes** |
 
 ## Features
 
-| Feature | Status |
-|---------|:------:|
-| Aspect ratio extensions for CameraController | ✅ |
-| CameraPreviewAspectRatio widget | ✅ |
-| Predefined aspect ratios (16:9, 4:3, 1:1, etc.) | ✅ |
-| Letterboxing/pillarboxing support | ✅ |
-| Custom aspect ratio values | ✅ |
+- **Native Aspect Ratio Selection** - Configure camera aspect ratio at the sensor level
+- **1:1 Square Format** - Native 1:1 on Android (1088x1088), falls back to 4:3 on iOS
+- **4:3 Standard Format** - Classic aspect ratio with wider field of view
+- **16:9 Widescreen Format** - Modern widescreen ratio
+- Full compatibility with original `camera` package API
+
+## Why This Package?
+
+The standard `camera` package doesn't allow you to configure the aspect ratio at the native level. This package extends it to:
+
+1. Request specific aspect ratios from the camera sensor
+2. Get wider field of view with 4:3 or 1:1 vs 16:9
+3. Capture square photos/videos natively on supported devices
+
+### Aspect Ratio Comparison
+
+| Ratio | Field of View | Use Case |
+|-------|---------------|----------|
+| 16:9  | Narrowest     | Video, Widescreen |
+| 4:3   | Wider         | Photos, Standard |
+| 1:1   | Square        | Social Media, Profile Photos |
 
 ## Installation
 
+Add to your `pubspec.yaml`:
+
 ```yaml
 dependencies:
-  camera: ^0.11.0
-  camera_extensions: ^1.0.0
+  camera_extended: ^0.11.11
 ```
 
-```bash
-flutter pub add camera camera_extensions
-```
+## Usage
 
-## Quick Start
+### Basic Setup
 
 ```dart
-import 'package:camera/camera.dart';
-import 'package:camera_extensions/camera_extensions.dart';
+import 'package:camera_extended/camera_extended.dart';
 
-class CameraScreen extends StatefulWidget {
-  @override
-  State<CameraScreen> createState() => _CameraScreenState();
+late List<CameraDescription> cameras;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
+  runApp(MyApp());
+}
+```
+
+### Initialize with Aspect Ratio
+
+```dart
+final controller = CameraController(
+  cameras.first,
+  ResolutionPreset.high,
+  enableAudio: false,
+  aspectRatio: CameraAspectRatio.ratio4x3, // NEW: aspect ratio parameter
+);
+
+await controller.initialize();
+```
+
+### Available Aspect Ratios
+
+```dart
+enum CameraAspectRatio {
+  ratio16x9,    // 16:9 widescreen
+  ratio4x3,     // 4:3 standard
+  ratio1x1,     // 1:1 square
+  ratioDefault, // Camera's default ratio
+}
+```
+
+### Complete Example
+
+```dart
+import 'package:camera_extended/camera_extended.dart';
+import 'package:flutter/material.dart';
+
+late List<CameraDescription> cameras;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
+  runApp(const CameraApp());
 }
 
-class _CameraScreenState extends State<CameraScreen> {
-  late CameraController _controller;
+class CameraApp extends StatefulWidget {
+  const CameraApp({super.key});
+
+  @override
+  State<CameraApp> createState() => _CameraAppState();
+}
+
+class _CameraAppState extends State<CameraApp> {
+  CameraController? _controller;
+  CameraAspectRatio _aspectRatio = CameraAspectRatio.ratio4x3;
 
   @override
   void initState() {
@@ -57,161 +126,162 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _initCamera() async {
-    final cameras = await availableCameras();
-    _controller = CameraController(cameras[0], ResolutionPreset.high);
-    await _controller.initialize();
-    setState(() {});
+    await _controller?.dispose();
+
+    _controller = CameraController(
+      cameras.first,
+      ResolutionPreset.high,
+      aspectRatio: _aspectRatio, // Set aspect ratio here
+    );
+
+    await _controller!.initialize();
+    if (mounted) setState(() {});
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (!_controller.value.isInitialized) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    // Use CameraPreviewAspectRatio for controlled aspect ratio
-    return CameraPreviewAspectRatio(
-      controller: _controller,
-      aspectRatio: CameraAspectRatio.ratio16x9,
-    );
+  void _changeAspectRatio(CameraAspectRatio ratio) {
+    setState(() => _aspectRatio = ratio);
+    _initCamera(); // Reinitialize camera with new ratio
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: _controller?.value.isInitialized == true
+                  ? CameraPreview(_controller!)
+                  : const Center(child: CircularProgressIndicator()),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: SegmentedButton<CameraAspectRatio>(
+                segments: const [
+                  ButtonSegment(value: CameraAspectRatio.ratio16x9, label: Text('16:9')),
+                  ButtonSegment(value: CameraAspectRatio.ratio4x3, label: Text('4:3')),
+                  ButtonSegment(value: CameraAspectRatio.ratio1x1, label: Text('1:1')),
+                ],
+                selected: {_aspectRatio},
+                onSelectionChanged: (selected) => _changeAspectRatio(selected.first),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 ```
 
-## Usage Examples
-
-### Get Camera Aspect Ratio
-
-```dart
-// Extension getter on CameraController
-final ratio = _controller.aspectRatio; // e.g., 1.777... for 16:9
-```
-
-### Predefined Aspect Ratios
-
-```dart
-CameraPreviewAspectRatio(
-  controller: _controller,
-  aspectRatio: CameraAspectRatio.ratio16x9, // 1.777...
-);
-
-CameraPreviewAspectRatio(
-  controller: _controller,
-  aspectRatio: CameraAspectRatio.ratio4x3,  // 1.333...
-);
-
-CameraPreviewAspectRatio(
-  controller: _controller,
-  aspectRatio: CameraAspectRatio.ratio1x1,  // 1.0 (square)
-);
-```
-
-### Custom Aspect Ratio
-
-```dart
-CameraPreviewAspectRatio(
-  controller: _controller,
-  aspectRatio: CameraAspectRatio.custom(2.35), // Cinemascope
-);
-```
-
-### Native Camera Aspect Ratio
-
-```dart
-// Use the camera's native aspect ratio
-CameraPreviewAspectRatio(
-  controller: _controller,
-  aspectRatio: CameraAspectRatio.native(_controller),
-);
-```
-
-### Fit Modes
-
-```dart
-CameraPreviewAspectRatio(
-  controller: _controller,
-  aspectRatio: CameraAspectRatio.ratio16x9,
-  fit: CameraPreviewFit.contain,  // Letterbox/pillarbox (default)
-);
-
-CameraPreviewAspectRatio(
-  controller: _controller,
-  aspectRatio: CameraAspectRatio.ratio16x9,
-  fit: CameraPreviewFit.cover,    // Fill and crop
-);
-```
-
-### Background Color
-
-```dart
-CameraPreviewAspectRatio(
-  controller: _controller,
-  aspectRatio: CameraAspectRatio.ratio1x1,
-  backgroundColor: Colors.black,  // Letterbox color
-);
-```
-
-## API Reference
-
-### CameraAspectRatio
-
-Enum with predefined aspect ratios:
-
-| Value | Ratio | Description |
-|-------|-------|-------------|
-| `ratio16x9` | 1.777... | Widescreen (HD video) |
-| `ratio4x3` | 1.333... | Standard (classic photos) |
-| `ratio1x1` | 1.0 | Square (Instagram style) |
-| `ratio3x2` | 1.5 | Classic 35mm film |
-| `ratio21x9` | 2.333... | Ultra-wide |
-| `custom(double)` | Custom | Any custom value |
-| `native(controller)` | Camera native | Uses camera's native ratio |
-
-### CameraPreviewAspectRatio Widget
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `controller` | `CameraController` | required | Initialized camera controller |
-| `aspectRatio` | `CameraAspectRatio` | required | Desired aspect ratio |
-| `fit` | `CameraPreviewFit` | `contain` | How preview fits in container |
-| `backgroundColor` | `Color` | `Colors.black` | Color for letterbox/pillarbox |
-
-### CameraController Extensions
-
-| Extension | Type | Description |
-|-----------|------|-------------|
-| `aspectRatio` | `double` | Returns camera's native aspect ratio |
-| `previewSize` | `Size` | Returns preview size in pixels |
-
 ## Platform Support
 
-| Platform | Support |
-|----------|---------|
-| Android | ✅ (API 21+) |
-| iOS | ✅ (iOS 12+) |
+| Platform | 16:9 | 4:3 | 1:1 |
+|----------|------|-----|-----|
+| Android  | Native | Native | Native (1088x1088) |
+| iOS      | Native | Native | Fallback to 4:3 |
+
+### Android
+
+Uses CameraX with `ResolutionSelector` to request specific aspect ratios. Many Android devices support native 1:1 formats (e.g., 1088x1088, 720x720).
+
+### iOS
+
+Uses AVFoundation with format selection based on aspect ratio. iOS cameras typically don't offer native 1:1 formats, so 1:1 falls back to 4:3.
+
+## Permissions
+
+### Android
+
+Add to `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+```
+
+### iOS
+
+Add to `Info.plist`:
+
+```xml
+<key>NSCameraUsageDescription</key>
+<string>Camera access is required for taking photos.</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>Microphone access is required for recording video.</string>
+```
+
+## Migration from `camera` Package
+
+This package is API-compatible with the original `camera` package. To migrate:
+
+1. Replace `camera` with `camera_extended` in `pubspec.yaml`
+2. Update imports: `import 'package:camera_extended/camera_extended.dart'`
+3. Optionally add `aspectRatio` parameter to `CameraController`
+
+```dart
+// Before (camera package)
+import 'package:camera/camera.dart';
+CameraController(camera, ResolutionPreset.high);
+
+// After (camera_extended)
+import 'package:camera_extended/camera_extended.dart';
+CameraController(camera, ResolutionPreset.high, aspectRatio: CameraAspectRatio.ratio4x3);
+```
+
+## Handling Lifecycle States
+
+Same as the original camera package - you need to handle lifecycle changes:
+
+```dart
+@override
+void didChangeAppLifecycleState(AppLifecycleState state) {
+  final CameraController? cameraController = controller;
+
+  if (cameraController == null || !cameraController.value.isInitialized) {
+    return;
+  }
+
+  if (state == AppLifecycleState.inactive) {
+    cameraController.dispose();
+  } else if (state == AppLifecycleState.resumed) {
+    _initCamera();
+  }
+}
+```
 
 ## Requirements
 
-- Flutter: `>=3.0.0`
-- Dart SDK: `>=3.0.0 <4.0.0`
-- camera: `^0.11.0`
+- Flutter: `>=3.35.0`
+- Dart SDK: `^3.9.0`
 
-## Contributing
+## Related Packages
 
-Contributions are welcome! Please feel free to submit issues and pull requests on [GitHub](https://github.com/erykkruk/camera_extensions).
+| Package | Description |
+|---------|-------------|
+| [camera_extended](https://pub.dev/packages/camera_extended) | Main plugin (this package) |
+| [camera_extended_android](https://pub.dev/packages/camera_extended_android) | Android implementation |
+| [camera_extended_ios](https://pub.dev/packages/camera_extended_ios) | iOS implementation |
+| [camera_extended_platform_interface](https://pub.dev/packages/camera_extended_platform_interface) | Platform interface |
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+BSD 3-Clause License - same as the original Flutter camera package.
+
+## Credits
+
+Based on the official [Flutter camera plugin](https://pub.dev/packages/camera) by the Flutter team.
+
+Extended with native aspect ratio support.
 
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://codigee.com">Codigee</a>
+  Made with love by <a href="https://codigee.com">Codigee</a>
 </p>

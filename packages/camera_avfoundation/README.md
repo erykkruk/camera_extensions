@@ -26,7 +26,7 @@ This package is automatically included when you use `camera_extended`.
 
 ```yaml
 dependencies:
-  camera_extended: ^0.11.3
+  camera_extended: ^0.11.11
 ```
 
 ## How It Works

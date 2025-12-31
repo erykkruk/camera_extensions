@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.9.30
+
+* Updated documentation and README consistency
+
+## 0.9.29
+
+* Version bump for pub.dev publication
+
+## 0.9.28
+
+* Minor bug fixes and improvements
+
+## 0.9.27
+
+* Updated dependency to `camera_extended_platform_interface: ^2.12.2`
+
+## 0.9.26
+
+* Performance improvements
+
+## 0.9.25
+
+* Bug fixes for aspect ratio selection
+
 ## 0.9.24
 
 * Renamed iOS podspec and directory to `camera_extended_ios`

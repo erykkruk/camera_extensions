@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.29
+
+* Updated documentation and README consistency
+
+## 0.6.28
+
+* Version bump for pub.dev publication
+
 ## 0.6.27
 
 * Renamed library entry point to `camera_extended_android.dart`

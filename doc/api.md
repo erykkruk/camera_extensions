@@ -1,287 +1,258 @@
-# camera_extensions API Reference
+# camera_extended API Reference
 
-Complete API documentation for the camera_extensions package.
+Complete API documentation for the camera_extended package.
 
 ## Table of Contents
 
-- [Extensions](#extensions)
-  - [CameraControllerExtensions](#cameracontrollerextensions)
-- [Widgets](#widgets)
-  - [CameraPreviewAspectRatio](#camerapreviewaspectratio)
-- [Models](#models)
-  - [CameraAspectRatio](#cameraaspectratio)
-  - [CameraPreviewFit](#camerapreviewfit)
+- [Overview](#overview)
+- [CameraController](#cameracontroller)
+- [CameraAspectRatio](#cameraaspectratio)
+- [CameraPreview](#camerapreview)
+- [Other Exports](#other-exports)
 - [Usage Examples](#usage-examples)
+- [Platform Notes](#platform-notes)
 
 ---
 
-## Extensions
+## Overview
 
-### CameraControllerExtensions
+`camera_extended` is a fork of the official Flutter camera plugin with native aspect ratio support. It provides the same API as the original `camera` package, plus the ability to configure aspect ratio at the sensor level.
 
-Extensions on `CameraController` from the camera package.
-
-```dart
-extension CameraControllerExtensions on CameraController
-```
-
-#### Properties
-
-##### aspectRatio
+### Quick Start
 
 ```dart
-double get aspectRatio
-```
+import 'package:camera_extended/camera_extended.dart';
 
-Returns the camera's native aspect ratio (width / height).
+// Initialize with aspect ratio
+final controller = CameraController(
+  cameras.first,
+  ResolutionPreset.high,
+  aspectRatio: CameraAspectRatio.ratio4x3, // NEW parameter
+);
 
-| Returns | Description |
-|---------|-------------|
-| `double` | Aspect ratio value (e.g., 1.777... for 16:9) |
-
-**Example:**
-
-```dart
-final controller = CameraController(camera, ResolutionPreset.high);
 await controller.initialize();
-
-final ratio = controller.aspectRatio;
-print('Camera aspect ratio: $ratio'); // e.g., 1.7777777777777777
-```
-
-##### previewSize
-
-```dart
-Size get previewSize
-```
-
-Returns the preview size in pixels.
-
-| Returns | Description |
-|---------|-------------|
-| `Size` | Preview dimensions (width x height) |
-
-**Example:**
-
-```dart
-final size = controller.previewSize;
-print('Preview: ${size.width}x${size.height}'); // e.g., 1920x1080
 ```
 
 ---
 
-## Widgets
+## CameraController
 
-### CameraPreviewAspectRatio
+Extended `CameraController` with aspect ratio support.
 
-A widget that displays the camera preview with a controlled aspect ratio.
-
-```dart
-class CameraPreviewAspectRatio extends StatelessWidget
-```
-
-#### Constructor
+### Constructor
 
 ```dart
-const CameraPreviewAspectRatio({
-  super.key,
-  required this.controller,
-  required this.aspectRatio,
-  this.fit = CameraPreviewFit.contain,
-  this.backgroundColor = Colors.black,
+CameraController(
+  CameraDescription description,
+  ResolutionPreset? resolutionPreset, {
+  bool enableAudio = true,
+  ImageFormatGroup? imageFormatGroup,
+  CameraAspectRatio aspectRatio = CameraAspectRatio.ratioDefault, // NEW
 })
 ```
 
-#### Parameters
+### Parameters
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| `controller` | `CameraController` | Yes | - | Initialized camera controller |
-| `aspectRatio` | `CameraAspectRatio` | Yes | - | Desired aspect ratio for preview |
-| `fit` | `CameraPreviewFit` | No | `contain` | How preview fits in container |
-| `backgroundColor` | `Color` | No | `Colors.black` | Color for letterbox/pillarbox areas |
+| `description` | `CameraDescription` | Yes | - | Camera to use |
+| `resolutionPreset` | `ResolutionPreset?` | Yes | - | Resolution quality preset |
+| `enableAudio` | `bool` | No | `true` | Enable audio recording |
+| `imageFormatGroup` | `ImageFormatGroup?` | No | `null` | Image format for streaming |
+| `aspectRatio` | `CameraAspectRatio` | No | `ratioDefault` | **NEW:** Aspect ratio configuration |
 
-#### Behavior
+### Properties
 
-- **contain** mode: Shows the entire preview within the aspect ratio box, adding letterbox (horizontal bars) or pillarbox (vertical bars) as needed
-- **cover** mode: Fills the entire aspect ratio box, cropping the preview if necessary
+| Property | Type | Description |
+|----------|------|-------------|
+| `value` | `CameraValue` | Current camera state |
+| `description` | `CameraDescription` | Camera description |
+| `resolutionPreset` | `ResolutionPreset?` | Resolution preset |
 
-#### Example
+### Methods
+
+| Method | Return Type | Description |
+|--------|-------------|-------------|
+| `initialize()` | `Future<void>` | Initialize camera |
+| `dispose()` | `Future<void>` | Dispose camera resources |
+| `takePicture()` | `Future<XFile>` | Take a picture |
+| `startVideoRecording()` | `Future<void>` | Start video recording |
+| `stopVideoRecording()` | `Future<XFile>` | Stop video and get file |
+| `pauseVideoRecording()` | `Future<void>` | Pause recording |
+| `resumeVideoRecording()` | `Future<void>` | Resume recording |
+| `setFlashMode(FlashMode)` | `Future<void>` | Set flash mode |
+| `setExposureMode(ExposureMode)` | `Future<void>` | Set exposure mode |
+| `setFocusMode(FocusMode)` | `Future<void>` | Set focus mode |
+| `lockCaptureOrientation(DeviceOrientation)` | `Future<void>` | Lock orientation |
+| `unlockCaptureOrientation()` | `Future<void>` | Unlock orientation |
+
+### Example
 
 ```dart
-CameraPreviewAspectRatio(
-  controller: _controller,
+final controller = CameraController(
+  cameras.first,
+  ResolutionPreset.high,
+  enableAudio: false,
+  aspectRatio: CameraAspectRatio.ratio4x3,
+);
+
+await controller.initialize();
+
+// Take picture
+final file = await controller.takePicture();
+
+// Cleanup
+await controller.dispose();
+```
+
+---
+
+## CameraAspectRatio
+
+Enum for selecting camera aspect ratio at the sensor level.
+
+```dart
+enum CameraAspectRatio {
+  ratio16x9,    // 16:9 widescreen
+  ratio4x3,     // 4:3 standard
+  ratio1x1,     // 1:1 square
+  ratioDefault, // Camera's default ratio
+}
+```
+
+### Values
+
+| Value | Numeric Ratio | Description | Use Case |
+|-------|---------------|-------------|----------|
+| `ratio16x9` | 1.777... | Widescreen format | Video, YouTube, TV |
+| `ratio4x3` | 1.333... | Standard format | Photos, documents |
+| `ratio1x1` | 1.0 | Square format | Social media, profiles |
+| `ratioDefault` | Varies | Camera's native ratio | Default behavior |
+
+### Platform Support
+
+| Ratio | Android | iOS |
+|-------|---------|-----|
+| `ratio16x9` | Native | Native |
+| `ratio4x3` | Native | Native |
+| `ratio1x1` | Native (1088x1088, 720x720) | Fallback to 4:3 |
+| `ratioDefault` | Native | Native |
+
+### Example
+
+```dart
+// Widescreen for video
+CameraController(camera, ResolutionPreset.high,
   aspectRatio: CameraAspectRatio.ratio16x9,
-  fit: CameraPreviewFit.contain,
-  backgroundColor: Colors.black,
-)
+);
+
+// Standard for photos
+CameraController(camera, ResolutionPreset.high,
+  aspectRatio: CameraAspectRatio.ratio4x3,
+);
+
+// Square for social media
+CameraController(camera, ResolutionPreset.high,
+  aspectRatio: CameraAspectRatio.ratio1x1,
+);
+
+// Let camera decide
+CameraController(camera, ResolutionPreset.high,
+  aspectRatio: CameraAspectRatio.ratioDefault,
+);
 ```
 
 ---
 
-## Models
+## CameraPreview
 
-### CameraAspectRatio
-
-Represents a camera preview aspect ratio.
+Widget for displaying the camera preview.
 
 ```dart
-sealed class CameraAspectRatio
+class CameraPreview extends StatelessWidget
 ```
 
-#### Factory Constructors
-
-##### ratio16x9
+### Constructor
 
 ```dart
-const factory CameraAspectRatio.ratio16x9()
+const CameraPreview(
+  CameraController controller, {
+  Widget? child,
+})
 ```
 
-Widescreen 16:9 aspect ratio (1.777...). Common for HD video.
+### Parameters
 
-##### ratio4x3
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `controller` | `CameraController` | Yes | Initialized camera controller |
+| `child` | `Widget?` | No | Optional overlay widget |
+
+### Example
 
 ```dart
-const factory CameraAspectRatio.ratio4x3()
+if (controller.value.isInitialized) {
+  CameraPreview(controller);
+}
+
+// With overlay
+CameraPreview(
+  controller,
+  child: Center(
+    child: Icon(Icons.camera, color: Colors.white),
+  ),
+);
 ```
-
-Standard 4:3 aspect ratio (1.333...). Classic photo format.
-
-##### ratio1x1
-
-```dart
-const factory CameraAspectRatio.ratio1x1()
-```
-
-Square 1:1 aspect ratio (1.0). Instagram-style.
-
-##### ratio3x2
-
-```dart
-const factory CameraAspectRatio.ratio3x2()
-```
-
-Classic 3:2 aspect ratio (1.5). 35mm film format.
-
-##### ratio21x9
-
-```dart
-const factory CameraAspectRatio.ratio21x9()
-```
-
-Ultra-wide 21:9 aspect ratio (2.333...). Cinematic format.
-
-##### custom
-
-```dart
-const factory CameraAspectRatio.custom(double value)
-```
-
-Custom aspect ratio with any value.
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `value` | `double` | Custom aspect ratio value (width / height) |
-
-**Example:**
-
-```dart
-// Cinemascope 2.35:1
-CameraAspectRatio.custom(2.35)
-
-// IMAX 1.43:1
-CameraAspectRatio.custom(1.43)
-```
-
-##### native
-
-```dart
-factory CameraAspectRatio.native(CameraController controller)
-```
-
-Uses the camera's native aspect ratio from the controller.
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `controller` | `CameraController` | Initialized camera controller |
-
-#### Properties
-
-##### value
-
-```dart
-double get value
-```
-
-Returns the numeric aspect ratio value.
-
-| Ratio | Value |
-|-------|-------|
-| 16:9 | 1.7777... |
-| 4:3 | 1.3333... |
-| 1:1 | 1.0 |
-| 3:2 | 1.5 |
-| 21:9 | 2.3333... |
-
-#### Aspect Ratio Reference
-
-| Format | Ratio | Value | Common Use |
-|--------|-------|-------|------------|
-| Square | 1:1 | 1.0 | Instagram, social media |
-| Standard | 4:3 | 1.333... | Classic photography |
-| 35mm Film | 3:2 | 1.5 | DSLR cameras |
-| HD Video | 16:9 | 1.777... | TV, YouTube |
-| Ultra-wide | 21:9 | 2.333... | Cinema, gaming |
-| Cinemascope | 2.35:1 | 2.35 | Widescreen films |
-| IMAX | 1.43:1 | 1.43 | IMAX theaters |
 
 ---
 
-### CameraPreviewFit
+## Other Exports
 
-Defines how the camera preview fits within the aspect ratio container.
+The package re-exports common types from the platform interface:
 
-```dart
-enum CameraPreviewFit
-```
+### Enums
 
-#### Values
+| Enum | Values | Description |
+|------|--------|-------------|
+| `CameraLensDirection` | `front`, `back`, `external` | Camera position |
+| `CameraLensType` | Various | Lens type (wide, ultrawide, telephoto) |
+| `ResolutionPreset` | `low`, `medium`, `high`, `veryHigh`, `ultraHigh`, `max` | Video quality |
+| `FlashMode` | `off`, `auto`, `always`, `torch` | Flash settings |
+| `ExposureMode` | `auto`, `locked` | Exposure settings |
+| `FocusMode` | `auto`, `locked` | Focus settings |
+| `ImageFormatGroup` | `unknown`, `jpeg`, `yuv420`, `bgra8888`, `nv21` | Image format |
 
-| Value | Description |
+### Classes
+
+| Class | Description |
 |-------|-------------|
-| `contain` | Scales preview to fit entirely within container, may show letterbox/pillarbox |
-| `cover` | Scales preview to fill container entirely, may crop edges |
+| `CameraDescription` | Camera device descriptor |
+| `CameraException` | Camera error type |
+| `XFile` | Cross-platform file reference |
 
-#### Visual Comparison
+### Functions
 
-```
-CONTAIN (16:9 preview in 1:1 container):
-┌─────────────────┐
-│  ░░░░░░░░░░░░░  │  ← letterbox
-│  ┌───────────┐  │
-│  │  preview  │  │
-│  └───────────┘  │
-│  ░░░░░░░░░░░░░  │  ← letterbox
-└─────────────────┘
-
-COVER (16:9 preview in 1:1 container):
-┌─────────────────┐
-│                 │
-│    preview      │  ← sides cropped
-│                 │
-└─────────────────┘
-```
+| Function | Return Type | Description |
+|----------|-------------|-------------|
+| `availableCameras()` | `Future<List<CameraDescription>>` | Get available cameras |
 
 ---
 
 ## Usage Examples
 
-### Basic Camera Setup with Aspect Ratio
+### Basic Camera Setup
 
 ```dart
-import 'package:camera/camera.dart';
-import 'package:camera_extensions/camera_extensions.dart';
+import 'package:camera_extended/camera_extended.dart';
 import 'package:flutter/material.dart';
+
+late List<CameraDescription> cameras;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
+  runApp(const MyApp());
+}
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -292,7 +263,6 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   CameraController? _controller;
-  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -301,19 +271,14 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _initCamera() async {
-    final cameras = await availableCameras();
-    if (cameras.isEmpty) return;
-
     _controller = CameraController(
       cameras.first,
       ResolutionPreset.high,
+      aspectRatio: CameraAspectRatio.ratio4x3,
     );
 
     await _controller!.initialize();
-
-    if (mounted) {
-      setState(() => _isInitialized = true);
-    }
+    if (mounted) setState(() {});
   }
 
   @override
@@ -324,114 +289,109 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isInitialized || _controller == null) {
+    if (_controller?.value.isInitialized != true) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return Scaffold(
-      body: Center(
-        child: CameraPreviewAspectRatio(
-          controller: _controller!,
-          aspectRatio: CameraAspectRatio.ratio16x9,
-        ),
-      ),
-    );
+    return CameraPreview(_controller!);
   }
 }
 ```
 
-### Switchable Aspect Ratios
+### Switching Aspect Ratios
 
 ```dart
-class SwitchableAspectRatioCamera extends StatefulWidget {
-  const SwitchableAspectRatioCamera({super.key});
+class AspectRatioSwitcher extends StatefulWidget {
+  const AspectRatioSwitcher({super.key});
 
   @override
-  State<SwitchableAspectRatioCamera> createState() =>
-      _SwitchableAspectRatioCameraState();
+  State<AspectRatioSwitcher> createState() => _AspectRatioSwitcherState();
 }
 
-class _SwitchableAspectRatioCameraState
-    extends State<SwitchableAspectRatioCamera> {
+class _AspectRatioSwitcherState extends State<AspectRatioSwitcher> {
   CameraController? _controller;
-  CameraAspectRatio _currentRatio = const CameraAspectRatio.ratio16x9();
+  CameraAspectRatio _ratio = CameraAspectRatio.ratio4x3;
 
-  final _ratios = const [
-    CameraAspectRatio.ratio16x9(),
-    CameraAspectRatio.ratio4x3(),
-    CameraAspectRatio.ratio1x1(),
-    CameraAspectRatio.ratio3x2(),
-  ];
+  Future<void> _initCamera() async {
+    await _controller?.dispose();
 
-  void _switchRatio() {
-    final currentIndex = _ratios.indexOf(_currentRatio);
-    final nextIndex = (currentIndex + 1) % _ratios.length;
-    setState(() => _currentRatio = _ratios[nextIndex]);
+    _controller = CameraController(
+      cameras.first,
+      ResolutionPreset.high,
+      aspectRatio: _ratio,
+    );
+
+    await _controller!.initialize();
+    if (mounted) setState(() {});
+  }
+
+  void _switchRatio(CameraAspectRatio ratio) {
+    setState(() => _ratio = ratio);
+    _initCamera(); // Must reinitialize to change ratio
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_controller == null || !_controller!.value.isInitialized) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    return Scaffold(
-      body: CameraPreviewAspectRatio(
-        controller: _controller!,
-        aspectRatio: _currentRatio,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _switchRatio,
-        child: const Icon(Icons.aspect_ratio),
-      ),
+    return Column(
+      children: [
+        Expanded(
+          child: _controller?.value.isInitialized == true
+              ? CameraPreview(_controller!)
+              : const CircularProgressIndicator(),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () => _switchRatio(CameraAspectRatio.ratio16x9),
+              child: const Text('16:9'),
+            ),
+            ElevatedButton(
+              onPressed: () => _switchRatio(CameraAspectRatio.ratio4x3),
+              child: const Text('4:3'),
+            ),
+            ElevatedButton(
+              onPressed: () => _switchRatio(CameraAspectRatio.ratio1x1),
+              child: const Text('1:1'),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
 ```
 
-### Using Native Aspect Ratio
+### Taking Pictures
 
 ```dart
-// Display preview at camera's native aspect ratio
-if (_controller != null && _controller!.value.isInitialized) {
-  CameraPreviewAspectRatio(
-    controller: _controller!,
-    aspectRatio: CameraAspectRatio.native(_controller!),
-  );
+Future<void> _takePicture() async {
+  if (_controller?.value.isInitialized != true) return;
+
+  try {
+    final file = await _controller!.takePicture();
+    print('Picture saved to: ${file.path}');
+  } on CameraException catch (e) {
+    print('Error taking picture: ${e.description}');
+  }
 }
 ```
 
-### Cover vs Contain Comparison
+### Recording Video
 
 ```dart
-Row(
-  children: [
-    Expanded(
-      child: Column(
-        children: [
-          const Text('Contain'),
-          CameraPreviewAspectRatio(
-            controller: _controller!,
-            aspectRatio: CameraAspectRatio.ratio1x1,
-            fit: CameraPreviewFit.contain,
-          ),
-        ],
-      ),
-    ),
-    Expanded(
-      child: Column(
-        children: [
-          const Text('Cover'),
-          CameraPreviewAspectRatio(
-            controller: _controller!,
-            aspectRatio: CameraAspectRatio.ratio1x1,
-            fit: CameraPreviewFit.cover,
-          ),
-        ],
-      ),
-    ),
-  ],
-)
+Future<void> _startRecording() async {
+  if (_controller?.value.isRecordingVideo == true) return;
+
+  await _controller!.startVideoRecording();
+}
+
+Future<void> _stopRecording() async {
+  if (_controller?.value.isRecordingVideo != true) return;
+
+  final file = await _controller!.stopVideoRecording();
+  print('Video saved to: ${file.path}');
+}
 ```
 
 ---
@@ -440,27 +400,42 @@ Row(
 
 ### Android
 
-- Minimum SDK: 21 (Lollipop)
-- Uses CameraX on API 21+
-- Native aspect ratios vary by device
+- **Minimum SDK:** 24
+- **Implementation:** CameraX with `ResolutionSelector`
+- **1:1 Support:** Native square formats (1088x1088, 720x720)
+- **Fallback:** Falls back to 4:3 when exact ratio unavailable
 
 ### iOS
 
-- Minimum iOS: 12.0
-- Uses AVFoundation
-- Common aspect ratios: 4:3, 16:9
+- **Minimum iOS:** 13.0
+- **Implementation:** AVFoundation with format selection
+- **1:1 Support:** Fallback to 4:3 (iOS has no native 1:1 formats)
+- **Fallback:** Uses closest available format
 
 ### Permissions
 
-Remember to add camera permissions to your app:
-
 **Android** (`android/app/src/main/AndroidManifest.xml`):
+
 ```xml
-<uses-permission android:name="android.permission.CAMERA"/>
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
 ```
 
 **iOS** (`ios/Runner/Info.plist`):
+
 ```xml
 <key>NSCameraUsageDescription</key>
-<string>Camera access is required for taking photos</string>
+<string>Camera access required</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>Microphone access required for video</string>
 ```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](../packages/camera/CHANGELOG.md) for version history.
+
+## License
+
+BSD 3-Clause License - same as the original Flutter camera package.
