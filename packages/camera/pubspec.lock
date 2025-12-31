@@ -69,18 +69,18 @@ packages:
     dependency: "direct main"
     description:
       name: camera_extended_android
-      sha256: "6ff1b9e1199e5b624ccec3ecc5055ad5e8413e070af12b6affb506f5f802a8e2"
+      sha256: "392e4b4c11e96c448f87770d5fe172e8f0d1d0bbe499133ca531724eed17e26a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.28"
+    version: "0.6.29"
   camera_extended_ios:
     dependency: "direct main"
     description:
       name: camera_extended_ios
-      sha256: f492ea2c9dc33afcaa299c0a23384bb00399b4fcc4cf4c0c538dade1af0d3486
+      sha256: "63c16379d4843bfab33f5c0f13905ac8c175a0da5594cb2326e228791666ed24"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.29"
+    version: "0.9.30"
   camera_extended_platform_interface:
     dependency: "direct main"
     description:
