@@ -199,6 +199,11 @@ class AVFoundationCamera extends CameraPlatform {
   }
 
   @override
+  Future<Uint8List> takePictureAsBytes(int cameraId) async {
+    return _hostApi.takePictureAsBytes();
+  }
+
+  @override
   Future<void> prepareForVideoRecording() async {
     await _hostApi.prepareForVideoRecording();
   }

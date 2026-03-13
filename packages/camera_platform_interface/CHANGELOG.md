@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+* Added `takePictureAsBytes()` to `CameraPlatform` — captures image and returns raw `Uint8List` without saving to disk
+* Added `takePictureAsBytes()` method channel implementation in `MethodChannelCamera`
+
 ## 2.12.2
 
 * Version bump for pub.dev publication

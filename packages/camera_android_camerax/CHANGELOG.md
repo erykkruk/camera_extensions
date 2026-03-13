@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+* Added `takePictureAsBytes()` — captures image and returns raw bytes using CameraX `OnImageCapturedCallback` without saving to disk
+* Updated Pigeon definitions and regenerated bindings
+
 ## 0.6.29
 
 * Updated documentation and README consistency

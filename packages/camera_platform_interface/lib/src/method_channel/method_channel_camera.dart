@@ -248,6 +248,23 @@ class MethodChannelCamera extends CameraPlatform {
   }
 
   @override
+  Future<Uint8List> takePictureAsBytes(int cameraId) async {
+    final Uint8List? bytes = await _channel.invokeMethod<Uint8List>(
+      'takePictureAsBytes',
+      <String, dynamic>{'cameraId': cameraId},
+    );
+
+    if (bytes == null) {
+      throw CameraException(
+        'INVALID_DATA',
+        'The platform "$defaultTargetPlatform" did not return image data while reporting success. The platform should always return valid bytes or report an error.',
+      );
+    }
+
+    return bytes;
+  }
+
+  @override
   Future<void> prepareForVideoRecording() =>
       _channel.invokeMethod<void>('prepareForVideoRecording');
 

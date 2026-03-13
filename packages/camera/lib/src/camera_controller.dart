@@ -491,6 +491,32 @@ class CameraController extends ValueNotifier<CameraValue> {
     }
   }
 
+  /// Captures an image and returns the raw bytes directly without saving to disk.
+  ///
+  /// This is useful for ML/image processing pipelines where file I/O is
+  /// unnecessary. Returns the JPEG-encoded image as a [Uint8List].
+  ///
+  /// Throws a [CameraException] if the capture fails.
+  Future<Uint8List> takePictureAsBytes() async {
+    _throwIfNotInitialized('takePictureAsBytes');
+    if (value.isTakingPicture) {
+      throw CameraException(
+        'Previous capture has not returned yet.',
+        'takePictureAsBytes was called before the previous capture returned.',
+      );
+    }
+    try {
+      value = value.copyWith(isTakingPicture: true);
+      final Uint8List bytes =
+          await CameraPlatform.instance.takePictureAsBytes(_cameraId);
+      value = value.copyWith(isTakingPicture: false);
+      return bytes;
+    } on PlatformException catch (e) {
+      value = value.copyWith(isTakingPicture: false);
+      throw CameraException(e.code, e.message);
+    }
+  }
+
   /// Start streaming images from platform camera.
   ///
   /// Settings for capturing images on iOS and Android is set to always use the

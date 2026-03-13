@@ -649,6 +649,51 @@ void main() {
         expect(file.path, '/test/path.jpg');
       });
 
+      test('Should take a picture and return bytes', () async {
+        // Arrange
+        final Uint8List expectedBytes =
+            Uint8List.fromList([0xFF, 0xD8, 0xFF, 0xE0]);
+        final channel = MethodChannelMock(
+          channelName: 'plugins.flutter.io/camera',
+          methods: <String, dynamic>{'takePictureAsBytes': expectedBytes},
+        );
+
+        // Act
+        final Uint8List bytes = await camera.takePictureAsBytes(cameraId);
+
+        // Assert
+        expect(channel.log, <Matcher>[
+          isMethodCall(
+            'takePictureAsBytes',
+            arguments: <String, Object?>{'cameraId': cameraId},
+          ),
+        ]);
+        expect(bytes, expectedBytes);
+      });
+
+      test(
+        'Should throw CameraException when takePictureAsBytes returns null',
+        () async {
+          // Arrange
+          MethodChannelMock(
+            channelName: 'plugins.flutter.io/camera',
+            methods: <String, dynamic>{'takePictureAsBytes': null},
+          );
+
+          // Act & Assert
+          expect(
+            camera.takePictureAsBytes(cameraId),
+            throwsA(
+              isA<CameraException>().having(
+                (CameraException e) => e.code,
+                'code',
+                'INVALID_DATA',
+              ),
+            ),
+          );
+        },
+      );
+
       test('Should prepare for video recording', () async {
         // Arrange
         final channel = MethodChannelMock(

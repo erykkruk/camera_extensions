@@ -1054,6 +1054,30 @@ class AndroidCameraCameraX extends CameraPlatform {
     return XFile(picturePath);
   }
 
+  /// Captures an image and returns the raw bytes without saving to disk.
+  ///
+  /// [cameraId] is not used.
+  @override
+  Future<Uint8List> takePictureAsBytes(int cameraId) async {
+    await _bindUseCaseToLifecycle(imageCapture!, cameraId);
+    // Set flash mode.
+    if (_currentFlashMode != null) {
+      await imageCapture!.setFlashMode(_currentFlashMode!);
+    } else if (torchEnabled) {
+      await imageCapture!.setFlashMode(CameraXFlashMode.off);
+    }
+
+    // Set target rotation to the current default CameraX rotation if
+    // the capture orientation is not locked.
+    if (!captureOrientationLocked) {
+      await imageCapture!.setTargetRotation(
+        await deviceOrientationManager.getDefaultDisplayRotation(),
+      );
+    }
+
+    return imageCapture!.takePictureAsBytes();
+  }
+
   /// Sets the flash mode for the selected camera.
   ///
   /// When the [FlashMode.torch] is enabled, any previously set [FlashMode] with

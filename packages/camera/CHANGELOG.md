@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+* Added `takePictureAsBytes()` to `CameraController` — captures image and returns raw `Uint8List` without saving to disk, ideal for ML/image processing pipelines
+* Updated all package dependencies to 1.1.0
+
 ## 0.11.11
 
 * Updated documentation and README consistency

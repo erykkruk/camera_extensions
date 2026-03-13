@@ -602,9 +602,13 @@ abstract class ImageCapture extends UseCase {
   /// Set the flash mode.
   void setFlashMode(CameraXFlashMode flashMode);
 
-  /// Captures a new still image for in memory access.
+  /// Captures a new still image and saves to file.
   @async
   String takePicture();
+
+  /// Captures a new still image and returns raw bytes without saving to disk.
+  @async
+  Uint8List takePictureAsBytes();
 
   /// Sets the desired rotation of the output image.
   void setTargetRotation(int rotation);

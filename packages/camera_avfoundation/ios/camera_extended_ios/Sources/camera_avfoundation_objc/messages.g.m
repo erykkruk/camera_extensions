@@ -678,6 +678,24 @@ void SetUpFCPCameraApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NSO
       [channel setMessageHandler:nil];
     }
   }
+  /// Takes a picture and returns the raw bytes without saving to disk.
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.camera_extended_ios.CameraApi.takePictureAsBytes", messageChannelSuffix]
+        binaryMessenger:binaryMessenger
+        codec:FCPGetMessagesCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(takePictureAsBytesWithCompletion:)], @"FCPCameraApi api (%@) doesn't respond to @selector(takePictureAsBytesWithCompletion:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        [api takePictureAsBytesWithCompletion:^(FlutterStandardTypedData *_Nullable output, FlutterError *_Nullable error) {
+          callback(wrapResult(output, error));
+        }];
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
   /// Does any preprocessing necessary before beginning to record video.
   {
     FlutterBasicMessageChannel *channel =

@@ -136,6 +136,13 @@ abstract class CameraPlatform extends PlatformInterface {
     throw UnimplementedError('takePicture() is not implemented.');
   }
 
+  /// Captures an image and returns the raw bytes directly without saving to disk.
+  ///
+  /// This is useful for ML/image processing pipelines where file I/O is unnecessary.
+  Future<Uint8List> takePictureAsBytes(int cameraId) {
+    throw UnimplementedError('takePictureAsBytes() is not implemented.');
+  }
+
   /// Prepare the capture session for video recording.
   Future<void> prepareForVideoRecording() {
     throw UnimplementedError('prepareForVideoRecording() is not implemented.');

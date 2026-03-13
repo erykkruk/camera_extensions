@@ -125,6 +125,9 @@ class FakeController extends ValueNotifier<CameraValue>
   Future<XFile> takePicture() async => XFile('');
 
   @override
+  Future<Uint8List> takePictureAsBytes() async => Uint8List(0);
+
+  @override
   Future<void> unlockCaptureOrientation() async {}
 
   @override
@@ -141,6 +144,9 @@ class FakeController extends ValueNotifier<CameraValue>
 
   @override
   bool supportsImageStreaming() => true;
+
+  @override
+  CameraAspectRatio get targetAspectRatio => CameraAspectRatio.ratioDefault;
 }
 
 void main() {

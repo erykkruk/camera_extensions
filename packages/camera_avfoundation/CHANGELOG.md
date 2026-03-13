@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+* Added `takePictureAsBytes()` — captures image and returns raw bytes using AVFoundation `fileDataRepresentation` without saving to disk
+* Added `FLTCapturePhotoBytesDelegate` for in-memory photo capture
+* Updated Pigeon definitions and regenerated bindings
+
 ## 0.9.30
 
 * Updated documentation and README consistency

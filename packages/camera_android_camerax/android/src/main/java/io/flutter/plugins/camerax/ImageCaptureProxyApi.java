@@ -8,9 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
+import androidx.camera.core.ImageProxy;
 import androidx.camera.core.resolutionselector.ResolutionSelector;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.concurrent.Executors;
 import kotlin.Result;
 import kotlin.Unit;
@@ -102,6 +104,32 @@ class ImageCaptureProxyApi extends PigeonApiImageCapture {
 
     pigeonInstance.takePicture(
         outputFileOptions, Executors.newSingleThreadExecutor(), onImageSavedCallback);
+  }
+
+  @Override
+  public void takePictureAsBytes(
+      @NonNull ImageCapture pigeonInstance,
+      @NonNull Function1<? super Result<byte[]>, Unit> callback) {
+    pigeonInstance.takePicture(
+        Executors.newSingleThreadExecutor(),
+        new ImageCapture.OnImageCapturedCallback() {
+          @Override
+          public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
+            try {
+              ByteBuffer buffer = imageProxy.getPlanes()[0].getBuffer();
+              byte[] bytes = new byte[buffer.remaining()];
+              buffer.get(bytes);
+              ResultCompat.success(bytes, callback);
+            } finally {
+              imageProxy.close();
+            }
+          }
+
+          @Override
+          public void onError(@NonNull ImageCaptureException exception) {
+            ResultCompat.failure(exception, callback);
+          }
+        });
   }
 
   @Override

@@ -80,6 +80,8 @@ final class DefaultCamera: NSObject, Camera {
   /// instead of just a single delegate reference.
   private(set) var inProgressSavePhotoDelegates = [Int64: FLTSavePhotoDelegate]()
 
+  private var inProgressCapturePhotoBytesDelegates = [Int64: FLTCapturePhotoBytesDelegate]()
+
   private var imageStreamHandler: FLTImageStreamHandler?
 
   private var previewSize: CGSize?
@@ -719,6 +721,48 @@ final class DefaultCamera: NSObject, Camera {
       "save photo delegate references must be updated on the capture session queue")
     inProgressSavePhotoDelegates[settings.uniqueID] = savePhotoDelegate
     capturePhotoOutput.capturePhoto(with: settings, delegate: savePhotoDelegate)
+  }
+
+  func captureToMemory(
+    completion: @escaping (FlutterStandardTypedData?, FlutterError?) -> Void
+  ) {
+    var settings = AVCapturePhotoSettings()
+
+    if mediaSettings.resolutionPreset == .max {
+      settings.isHighResolutionPhotoEnabled = true
+    }
+
+    let isHEVCCodecAvailable = capturePhotoOutput.availablePhotoCodecTypes.contains(.hevc)
+    if fileFormat == .heif, isHEVCCodecAvailable {
+      settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.hevc])
+    }
+
+    if flashMode != .torch {
+      settings.flashMode = FCPGetAVCaptureFlashModeForPigeonFlashMode(flashMode)
+    }
+
+    let capturePhotoBytesDelegate = FLTCapturePhotoBytesDelegate(
+      completionHandler: { [weak self] data, error in
+        guard let strongSelf = self else { return }
+
+        strongSelf.captureSessionQueue.async { [weak self] in
+          self?.inProgressCapturePhotoBytesDelegates.removeValue(forKey: settings.uniqueID)
+        }
+
+        if let error = error {
+          completion(nil, DefaultCamera.flutterErrorFromNSError(error as NSError))
+        } else {
+          completion(data, nil)
+        }
+      }
+    )
+
+    assert(
+      DispatchQueue.getSpecific(key: captureSessionQueueSpecificKey)
+        == captureSessionQueueSpecificValue,
+      "capture photo bytes delegate references must be updated on the capture session queue")
+    inProgressCapturePhotoBytesDelegates[settings.uniqueID] = capturePhotoBytesDelegate
+    capturePhotoOutput.capturePhoto(with: settings, delegate: capturePhotoBytesDelegate)
   }
 
   private func getTemporaryFilePath(

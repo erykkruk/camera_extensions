@@ -222,6 +222,10 @@ abstract class CameraApi {
   @async
   String takePicture();
 
+  /// Takes a picture and returns the raw bytes without saving to disk.
+  @async
+  Uint8List takePictureAsBytes();
+
   /// Does any preprocessing necessary before beginning to record video.
   @async
   void prepareForVideoRecording();

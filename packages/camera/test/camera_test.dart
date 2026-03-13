@@ -50,6 +50,8 @@ CameraErrorEvent get mockOnCameraErrorEvent =>
 
 XFile mockTakePicture = XFile('foo/bar.png');
 
+Uint8List mockTakePictureAsBytes = Uint8List.fromList([0xFF, 0xD8, 0xFF, 0xE0]);
+
 XFile mockVideoRecordingXFile = XFile('foo/bar.mpeg');
 
 bool mockPlatformException = false;
@@ -395,6 +397,108 @@ void main() {
         mockPlatformException = true;
         expect(
           cameraController.takePicture(),
+          throwsA(
+            isA<CameraException>().having(
+              (CameraException error) => error.description,
+              'foo',
+              'bar',
+            ),
+          ),
+        );
+        mockPlatformException = false;
+      },
+    );
+
+    test(
+      'takePictureAsBytes() throws $CameraException when uninitialized',
+      () async {
+        final cameraController = CameraController(
+          const CameraDescription(
+            name: 'cam',
+            lensDirection: CameraLensDirection.back,
+            sensorOrientation: 90,
+          ),
+          ResolutionPreset.max,
+        );
+        expect(
+          cameraController.takePictureAsBytes(),
+          throwsA(
+            isA<CameraException>()
+                .having(
+                  (CameraException error) => error.code,
+                  'code',
+                  'Uninitialized CameraController',
+                )
+                .having(
+                  (CameraException error) => error.description,
+                  'description',
+                  'takePictureAsBytes() was called on an uninitialized CameraController.',
+                ),
+          ),
+        );
+      },
+    );
+
+    test(
+      'takePictureAsBytes() throws $CameraException when isTakingPicture is true',
+      () async {
+        final cameraController = CameraController(
+          const CameraDescription(
+            name: 'cam',
+            lensDirection: CameraLensDirection.back,
+            sensorOrientation: 90,
+          ),
+          ResolutionPreset.max,
+        );
+        await cameraController.initialize();
+
+        cameraController.value = cameraController.value.copyWith(
+          isTakingPicture: true,
+        );
+        expect(
+          cameraController.takePictureAsBytes(),
+          throwsA(
+            isA<CameraException>().having(
+              (CameraException error) => error.description,
+              'Previous capture has not returned yet.',
+              'takePictureAsBytes was called before the previous capture returned.',
+            ),
+          ),
+        );
+      },
+    );
+
+    test('takePictureAsBytes() returns $Uint8List', () async {
+      final cameraController = CameraController(
+        const CameraDescription(
+          name: 'cam',
+          lensDirection: CameraLensDirection.back,
+          sensorOrientation: 90,
+        ),
+        ResolutionPreset.max,
+      );
+      await cameraController.initialize();
+      final Uint8List bytes = await cameraController.takePictureAsBytes();
+
+      expect(bytes, mockTakePictureAsBytes);
+    });
+
+    test(
+      'takePictureAsBytes() throws $CameraException on $PlatformException',
+      () async {
+        final cameraController = CameraController(
+          const CameraDescription(
+            name: 'cam',
+            lensDirection: CameraLensDirection.back,
+            sensorOrientation: 90,
+          ),
+          ResolutionPreset.max,
+        );
+        await cameraController.initialize();
+
+        mockPlatformException = true;
+        expect(
+          cameraController.takePictureAsBytes(),
           throwsA(
             isA<CameraException>().having(
               (CameraException error) => error.description,
@@ -1865,6 +1969,11 @@ class MockCameraPlatform extends Mock
   Future<XFile> takePicture(int cameraId) => mockPlatformException
       ? throw PlatformException(code: 'foo', message: 'bar')
       : Future<XFile>.value(mockTakePicture);
+
+  @override
+  Future<Uint8List> takePictureAsBytes(int cameraId) => mockPlatformException
+      ? throw PlatformException(code: 'foo', message: 'bar')
+      : Future<Uint8List>.value(mockTakePictureAsBytes);
 
   @override
   Future<void> prepareForVideoRecording() async =>

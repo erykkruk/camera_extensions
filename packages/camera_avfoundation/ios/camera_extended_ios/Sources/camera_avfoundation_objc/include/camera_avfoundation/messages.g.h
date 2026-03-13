@@ -253,6 +253,8 @@ NSObject<FlutterMessageCodec> *FCPGetMessagesCodec(void);
 /// Takes a picture with the current settings, and returns the path to the
 /// resulting file.
 - (void)takePictureWithCompletion:(void (^)(NSString *_Nullable, FlutterError *_Nullable))completion;
+/// Takes a picture and returns the raw bytes without saving to disk.
+- (void)takePictureAsBytesWithCompletion:(void (^)(FlutterStandardTypedData *_Nullable, FlutterError *_Nullable))completion;
 /// Does any preprocessing necessary before beginning to record video.
 - (void)prepareForVideoRecordingWithCompletion:(void (^)(FlutterError *_Nullable))completion;
 /// Begins recording video, optionally enabling streaming to Dart at the same

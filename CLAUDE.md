@@ -55,10 +55,10 @@ camera_extensions/
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| `camera_extended` | 0.11.11 | Main federated plugin |
-| `camera_extended_platform_interface` | 2.12.2 | Platform interface with CameraAspectRatio |
-| `camera_extended_android` | 0.6.29 | Android CameraX implementation |
-| `camera_extended_ios` | 0.9.30 | iOS AVFoundation implementation |
+| `camera_extended` | 1.1.0 | Main federated plugin |
+| `camera_extended_platform_interface` | 1.1.0 | Platform interface with CameraAspectRatio |
+| `camera_extended_android` | 1.1.0 | Android CameraX implementation |
+| `camera_extended_ios` | 1.1.0 | iOS AVFoundation implementation |
 
 ### Core Components
 
