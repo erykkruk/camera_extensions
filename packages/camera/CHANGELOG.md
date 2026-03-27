@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0
+
+* Added `VideoStabilizationMode` to barrel export
+* Added `videoStabilizationMode` field to `CameraValue`
+* Added `getSupportedVideoStabilizationModes()` and `setVideoStabilizationMode()` to `CameraController`
+* Made `Optional.of` constructor `const`
+* Added `onCameraError` subscription in `initialize` to propagate native error events to `CameraValue.errorDescription`
+* Updated all package dependencies to 1.2.0
+
 ## 1.1.0
 
 * Added `takePictureAsBytes()` to `CameraController` — captures image and returns raw `Uint8List` without saving to disk, ideal for ML/image processing pipelines

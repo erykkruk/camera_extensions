@@ -147,6 +147,17 @@ class FakeController extends ValueNotifier<CameraValue>
 
   @override
   CameraAspectRatio get targetAspectRatio => CameraAspectRatio.ratioDefault;
+
+  @override
+  Future<Iterable<VideoStabilizationMode>>
+      getSupportedVideoStabilizationModes() async =>
+          <VideoStabilizationMode>[];
+
+  @override
+  Future<void> setVideoStabilizationMode(
+    VideoStabilizationMode mode, {
+    bool allowFallback = true,
+  }) async {}
 }
 
 void main() {

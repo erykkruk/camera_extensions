@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+
+* Sync with upstream `camera_platform_interface` changes up to `camera` 0.12.0+1
+* `VideoStabilizationMode`, `getSupportedVideoStabilizationModes()`, `setVideoStabilizationMode()`, and `getFallbackVideoStabilizationMode()` already present since prior sync
+
 ## 1.1.0
 
 * Added `takePictureAsBytes()` to `CameraPlatform` — captures image and returns raw `Uint8List` without saving to disk

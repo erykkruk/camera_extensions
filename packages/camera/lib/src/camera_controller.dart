@@ -54,6 +54,7 @@ class CameraValue {
     this.recordingOrientation,
     this.isPreviewPaused = false,
     this.previewPauseOrientation,
+    this.videoStabilizationMode = VideoStabilizationMode.off,
   }) : _isRecordingPaused = isRecordingPaused;
 
   /// Creates a new camera controller state for an uninitialized controller.
@@ -72,6 +73,7 @@ class CameraValue {
         deviceOrientation: DeviceOrientation.portraitUp,
         isPreviewPaused: false,
         description: description,
+        videoStabilizationMode: VideoStabilizationMode.off,
       );
 
   /// True after [CameraController.initialize] has completed successfully.
@@ -148,6 +150,9 @@ class CameraValue {
   /// The properties of the camera device controlled by this controller.
   final CameraDescription description;
 
+  /// The video stabilization mode the camera is currently set to.
+  final VideoStabilizationMode videoStabilizationMode;
+
   /// Creates a modified copy of the object.
   ///
   /// Explicitly specified fields get the specified value, all other fields get
@@ -171,6 +176,7 @@ class CameraValue {
     bool? isPreviewPaused,
     CameraDescription? description,
     Optional<DeviceOrientation>? previewPauseOrientation,
+    VideoStabilizationMode? videoStabilizationMode,
   }) {
     return CameraValue(
       isInitialized: isInitialized ?? this.isInitialized,
@@ -198,6 +204,8 @@ class CameraValue {
       previewPauseOrientation: previewPauseOrientation == null
           ? this.previewPauseOrientation
           : previewPauseOrientation.orNull,
+      videoStabilizationMode:
+          videoStabilizationMode ?? this.videoStabilizationMode,
     );
   }
 
@@ -219,7 +227,8 @@ class CameraValue {
         'recordingOrientation: $recordingOrientation, '
         'isPreviewPaused: $isPreviewPaused, '
         'previewPausedOrientation: $previewPauseOrientation, '
-        'description: $description)';
+        'description: $description, '
+        'videoStabilizationMode: $videoStabilizationMode)';
   }
 }
 
@@ -370,6 +379,14 @@ class CameraController extends ValueNotifier<CameraValue> {
       await CameraPlatform.instance.initializeCamera(
         _cameraId,
         imageFormatGroup: imageFormatGroup ?? ImageFormatGroup.unknown,
+      );
+
+      _unawaited(
+        CameraPlatform.instance.onCameraError(_cameraId).first.then((
+          CameraErrorEvent event,
+        ) {
+          value = value.copyWith(errorDescription: event.description);
+        }),
       );
 
       value = value.copyWith(
@@ -934,6 +951,84 @@ class CameraController extends ValueNotifier<CameraValue> {
     }
   }
 
+  /// Returns the video stabilization modes supported by the camera.
+  ///
+  /// The returned list may be empty if the platform does not support
+  /// video stabilization or if the native implementation has not been added.
+  Future<Iterable<VideoStabilizationMode>>
+      getSupportedVideoStabilizationModes() {
+    _throwIfNotInitialized('getSupportedVideoStabilizationModes');
+    try {
+      return CameraPlatform.instance
+          .getSupportedVideoStabilizationModes(_cameraId);
+    } on PlatformException catch (e) {
+      throw CameraException(e.code, e.message);
+    }
+  }
+
+  /// Sets the video stabilization mode for the camera.
+  ///
+  /// If [allowFallback] is `true` (default) and [mode] is not supported,
+  /// the controller will attempt to find a lower stabilization level via
+  /// [CameraPlatform.getFallbackVideoStabilizationMode].
+  ///
+  /// If [allowFallback] is `false` and [mode] is not supported, throws
+  /// an [ArgumentError].
+  Future<void> setVideoStabilizationMode(
+    VideoStabilizationMode mode, {
+    bool allowFallback = true,
+  }) async {
+    _throwIfNotInitialized('setVideoStabilizationMode');
+
+    final VideoStabilizationMode? modeToSet =
+        await _getVideoStabilizationModeToSet(mode, allowFallback);
+
+    if (modeToSet == null) {
+      return;
+    }
+
+    try {
+      await CameraPlatform.instance
+          .setVideoStabilizationMode(_cameraId, modeToSet);
+      value = value.copyWith(videoStabilizationMode: modeToSet);
+    } on PlatformException catch (e) {
+      throw CameraException(e.code, e.message);
+    }
+  }
+
+  Future<VideoStabilizationMode?> _getVideoStabilizationModeToSet(
+    VideoStabilizationMode requestedMode,
+    bool allowFallback,
+  ) async {
+    final Iterable<VideoStabilizationMode> supportedModes =
+        await getSupportedVideoStabilizationModes();
+
+    if (supportedModes.contains(requestedMode)) {
+      return requestedMode;
+    }
+
+    if (!allowFallback) {
+      throw ArgumentError(
+        'VideoStabilizationMode $requestedMode is not supported by this camera. '
+        'Supported modes: $supportedModes',
+      );
+    }
+
+    // Walk down the fallback chain.
+    VideoStabilizationMode? candidate =
+        CameraPlatform.getFallbackVideoStabilizationMode(requestedMode);
+    while (candidate != null) {
+      if (supportedModes.contains(candidate)) {
+        return candidate;
+      }
+      candidate =
+          CameraPlatform.getFallbackVideoStabilizationMode(candidate);
+    }
+
+    // No supported mode found in the fallback chain — no-op.
+    return null;
+  }
+
   /// Check whether the camera platform supports image streaming.
   bool supportsImageStreaming() =>
       CameraPlatform.instance.supportsImageStreaming();
@@ -991,11 +1086,7 @@ class Optional<T> extends IterableBase<T> {
   /// Constructs an Optional of the given [value].
   ///
   /// Throws [ArgumentError] if [value] is null.
-  Optional.of(T value) : _value = value {
-    // TODO(cbracken): Delete and make this ctor const once mixed-mode
-    // execution is no longer around.
-    ArgumentError.checkNotNull(value);
-  }
+  const Optional.of(T value) : _value = value;
 
   /// Constructs an Optional of the given [value].
   ///

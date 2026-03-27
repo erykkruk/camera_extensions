@@ -163,7 +163,8 @@ void main() {
         // CameraDescription.toString is defined in the platform interface
         // package, so don't assert a specific value for it, only that
         // whatever it returns is inserted as expected.
-        'description: ${FakeController.fakeDescription})',
+        'description: ${FakeController.fakeDescription}, '
+        'videoStabilizationMode: VideoStabilizationMode.off)',
       );
     });
   });

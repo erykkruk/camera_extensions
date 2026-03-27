@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+
+* Version bump to match `camera_extended` 1.2.0
+* Updated `camera_extended_platform_interface` dependency to ^1.2.0
+
 ## 1.1.0
 
 * Added `takePictureAsBytes()` — captures image and returns raw bytes using CameraX `OnImageCapturedCallback` without saving to disk

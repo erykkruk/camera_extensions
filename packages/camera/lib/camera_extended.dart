@@ -14,6 +14,7 @@ export 'package:camera_extended_platform_interface/camera_extended_platform_inte
         FocusMode,
         ImageFormatGroup,
         ResolutionPreset,
+        VideoStabilizationMode,
         XFile;
 
 export 'src/camera_controller.dart';
