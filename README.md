@@ -20,6 +20,8 @@ Fork of the official [camera](https://pub.dev/packages/camera) package with sens
 | Aspect Ratio Control | No | **Yes** (16:9, 4:3, 1:1) |
 | Native 1:1 Square | No | **Yes** (Android) |
 | Sensor-Level Config | No | **Yes** |
+| In-Memory Capture | No | **Yes** (`takePictureAsBytes()`) |
+| Video Stabilization | No | **Yes** (`VideoStabilizationMode`) |
 
 ## Features
 
@@ -27,6 +29,8 @@ Fork of the official [camera](https://pub.dev/packages/camera) package with sens
 - **1:1 Square Format** - Native 1:1 on Android (1088x1088), falls back to 4:3 on iOS
 - **4:3 Standard Format** - Classic aspect ratio with wider field of view
 - **16:9 Widescreen Format** - Modern widescreen ratio
+- **In-Memory Capture** - `takePictureAsBytes()` returns raw `Uint8List` without saving to disk
+- **Video Stabilization** - Query and set stabilization modes per-device
 - Full compatibility with original `camera` package API
 
 ## Why This Package?
@@ -51,7 +55,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  camera_extended: ^0.11.11
+  camera_extended: ^1.2.0
 ```
 
 ## Usage
@@ -179,6 +183,29 @@ class _CameraAppState extends State<CameraApp> {
   }
 }
 ```
+
+### In-Memory Capture
+
+Capture an image directly as bytes without writing to disk — ideal for ML pipelines, image processing, or uploading:
+
+```dart
+final Uint8List bytes = await controller.takePictureAsBytes();
+// Use bytes directly — no file I/O needed
+```
+
+### Video Stabilization
+
+Query supported stabilization modes and apply one:
+
+```dart
+// Check supported modes
+final modes = await controller.getSupportedVideoStabilizationModes();
+
+// Apply stabilization
+await controller.setVideoStabilizationMode(VideoStabilizationMode.standard);
+```
+
+Available modes: `off`, `standard`, `cinematic`, `cinematicExtended` (availability depends on device).
 
 ## Platform Support
 
