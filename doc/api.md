@@ -7,6 +7,8 @@ Complete API documentation for the camera_extended package.
 - [Overview](#overview)
 - [CameraController](#cameracontroller)
 - [CameraAspectRatio](#cameraaspectratio)
+- [takePictureAsBytes](#takepictureasbytes)
+- [VideoStabilizationMode](#videostabilizationmode)
 - [CameraPreview](#camerapreview)
 - [Other Exports](#other-exports)
 - [Usage Examples](#usage-examples)
@@ -75,7 +77,8 @@ CameraController(
 |--------|-------------|-------------|
 | `initialize()` | `Future<void>` | Initialize camera |
 | `dispose()` | `Future<void>` | Dispose camera resources |
-| `takePicture()` | `Future<XFile>` | Take a picture |
+| `takePicture()` | `Future<XFile>` | Take a picture (saves to file) |
+| `takePictureAsBytes()` | `Future<Uint8List>` | Take a picture as raw bytes (no file I/O) |
 | `startVideoRecording()` | `Future<void>` | Start video recording |
 | `stopVideoRecording()` | `Future<XFile>` | Stop video and get file |
 | `pauseVideoRecording()` | `Future<void>` | Pause recording |
@@ -85,6 +88,8 @@ CameraController(
 | `setFocusMode(FocusMode)` | `Future<void>` | Set focus mode |
 | `lockCaptureOrientation(DeviceOrientation)` | `Future<void>` | Lock orientation |
 | `unlockCaptureOrientation()` | `Future<void>` | Unlock orientation |
+| `getSupportedVideoStabilizationModes()` | `Future<List<VideoStabilizationMode>>` | Get supported stabilization modes |
+| `setVideoStabilizationMode(VideoStabilizationMode)` | `Future<void>` | Set video stabilization mode |
 
 ### Example
 
@@ -164,6 +169,76 @@ CameraController(camera, ResolutionPreset.high,
 
 ---
 
+## takePictureAsBytes
+
+Captures an image and returns the raw bytes as `Uint8List` without writing to disk. Useful for ML pipelines, image processing, or direct uploads.
+
+### Signature
+
+```dart
+Future<Uint8List> takePictureAsBytes()
+```
+
+### Example
+
+```dart
+final Uint8List bytes = await controller.takePictureAsBytes();
+
+// Use directly for image processing
+final image = img.decodeImage(bytes);
+
+// Or upload without saving to file
+await api.uploadImage(bytes);
+```
+
+---
+
+## VideoStabilizationMode
+
+Enum for configuring video stabilization at the hardware level.
+
+```dart
+enum VideoStabilizationMode {
+  off,
+  standard,
+  cinematic,
+  cinematicExtended,
+}
+```
+
+### Values
+
+| Value | Description |
+|-------|-------------|
+| `off` | No stabilization |
+| `standard` | Basic stabilization (most devices) |
+| `cinematic` | Enhanced stabilization with slight crop |
+| `cinematicExtended` | Maximum stabilization (iOS 15+, select Android) |
+
+### Methods
+
+| Method | Return Type | Description |
+|--------|-------------|-------------|
+| `getSupportedVideoStabilizationModes()` | `Future<List<VideoStabilizationMode>>` | Query device-supported modes |
+| `setVideoStabilizationMode(mode)` | `Future<void>` | Apply a stabilization mode |
+
+### Example
+
+```dart
+// Check what the device supports
+final modes = await controller.getSupportedVideoStabilizationModes();
+// e.g. [off, standard, cinematic]
+
+// Apply stabilization before recording
+if (modes.contains(VideoStabilizationMode.cinematic)) {
+  await controller.setVideoStabilizationMode(VideoStabilizationMode.cinematic);
+}
+
+await controller.startVideoRecording();
+```
+
+---
+
 ## CameraPreview
 
 Widget for displaying the camera preview.
@@ -221,6 +296,7 @@ The package re-exports common types from the platform interface:
 | `ExposureMode` | `auto`, `locked` | Exposure settings |
 | `FocusMode` | `auto`, `locked` | Focus settings |
 | `ImageFormatGroup` | `unknown`, `jpeg`, `yuv420`, `bgra8888`, `nv21` | Image format |
+| `VideoStabilizationMode` | `off`, `standard`, `cinematic`, `cinematicExtended` | Video stabilization |
 
 ### Classes
 

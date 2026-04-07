@@ -18,9 +18,9 @@ flutter:
         default_package: camera_extended_ios
 
 dependencies:
-  camera_extended_android: ^1.1.0
-  camera_extended_ios: ^1.1.0
-  camera_extended_platform_interface: ^1.1.0
+  camera_extended_android: ^1.2.0
+  camera_extended_ios: ^1.2.0
+  camera_extended_platform_interface: ^1.2.0
   flutter:
     sdk: flutter
   flutter_plugin_android_lifecycle: ^2.0.2
