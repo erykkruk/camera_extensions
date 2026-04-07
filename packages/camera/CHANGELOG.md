@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+* Updated installation docs to ^1.2.2
+
 ## 1.2.1
 
 * Fixed internal dependency versions `^1.1.0` → `^1.2.0`
