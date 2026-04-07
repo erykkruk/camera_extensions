@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1
+
+* Fixed internal dependency versions `^1.1.0` → `^1.2.0`
+* Updated installation docs to `^1.2.0`
+* Added `takePictureAsBytes()` and `VideoStabilizationMode` to README and API docs
+
 ## 1.2.0
 
 * Added `VideoStabilizationMode` to barrel export
