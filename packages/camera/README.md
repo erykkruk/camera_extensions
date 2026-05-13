@@ -46,7 +46,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  camera_extended: ^1.2.2
+  camera_extended: ^1.2.3
 ```
 
 ## Usage

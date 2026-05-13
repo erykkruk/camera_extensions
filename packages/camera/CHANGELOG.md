@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.3
+
+* Expanded `topics:` in `pubspec.yaml` to the maximum 5 entries (`camera`,
+  `video`, `photo`, `preview`, `aspect-ratio`) for improved pub.dev
+  discoverability and scoring.
+
 ## 1.2.2
 
 * Updated installation docs to ^1.2.2
