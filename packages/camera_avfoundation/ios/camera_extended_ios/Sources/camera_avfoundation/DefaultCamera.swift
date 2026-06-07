@@ -1175,7 +1175,7 @@ final class DefaultCamera: NSObject, Camera {
     }
 
     let eventChannel = FlutterEventChannel(
-      name: "plugins.flutter.io/camera_avfoundation/imageStream",
+      name: "plugins.flutter.io/camera_extended_ios/imageStream",
       binaryMessenger: messenger
     )
     let threadSafeEventChannel = FLTThreadSafeEventChannel(eventChannel: eventChannel)
