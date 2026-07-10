@@ -1,0 +1,5 @@
+# Resolves the sibling platform interface from source so the example builds
+# against the local (unpublished) changes rather than the pub.dev release.
+dependency_overrides:
+  camera_extended_platform_interface:
+    path: ../../camera_platform_interface

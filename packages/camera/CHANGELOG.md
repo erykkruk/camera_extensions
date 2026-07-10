@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.2.4
+
+* Verified compatibility with the upstream `camera` 0.12.0+1 API surface
+  (video stabilization + `takePictureAsBytes`), keeping the native aspect-ratio
+  support (16:9, 4:3, 1:1) on Android (CameraX) and iOS (AVFoundation).
+* Fixed the `camera_extended_platform_interface` test suite, which was failing
+  because the `aspectRatio` field added to `MediaSettings` was not reflected in
+  the `hashCode` and `create` method-channel expectations.
+* Fixed the `camera_extended_ios` example integration test importing the old
+  upstream `camera_example` package name instead of `camera_extended_ios_example`.
+* Made the native plugin examples resolve the sibling platform interface from
+  source via `pubspec_overrides.yaml` so `flutter test` runs in CI.
+* Added GitHub Actions CI (format + analyze + test across all four packages),
+  auto-release, and pub.dev publish workflows.
+
 ## 1.2.3
 
 * Expanded `topics:` in `pubspec.yaml` to the maximum 5 entries (`camera`,

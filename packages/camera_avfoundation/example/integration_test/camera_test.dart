@@ -7,7 +7,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:camera_extended_ios/camera_extended_ios.dart';
-import 'package:camera_example/camera_controller.dart';
+import 'package:camera_extended_ios_example/camera_controller.dart';
 import 'package:camera_extended_platform_interface/camera_extended_platform_interface.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -59,6 +59,7 @@ void main() {
               'videoBitrate': 200000,
               'audioBitrate': 32000,
               'enableAudio': false,
+              'aspectRatio': 'ratioDefault',
             },
           ),
         ]);
@@ -651,8 +652,12 @@ void main() {
 
       test('Should take a picture and return bytes', () async {
         // Arrange
-        final Uint8List expectedBytes =
-            Uint8List.fromList([0xFF, 0xD8, 0xFF, 0xE0]);
+        final Uint8List expectedBytes = Uint8List.fromList([
+          0xFF,
+          0xD8,
+          0xFF,
+          0xE0,
+        ]);
         final channel = MethodChannelMock(
           channelName: 'plugins.flutter.io/camera',
           methods: <String, dynamic>{'takePictureAsBytes': expectedBytes},
