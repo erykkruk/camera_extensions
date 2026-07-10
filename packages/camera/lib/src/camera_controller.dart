@@ -524,8 +524,9 @@ class CameraController extends ValueNotifier<CameraValue> {
     }
     try {
       value = value.copyWith(isTakingPicture: true);
-      final Uint8List bytes =
-          await CameraPlatform.instance.takePictureAsBytes(_cameraId);
+      final Uint8List bytes = await CameraPlatform.instance.takePictureAsBytes(
+        _cameraId,
+      );
       value = value.copyWith(isTakingPicture: false);
       return bytes;
     } on PlatformException catch (e) {
@@ -956,11 +957,12 @@ class CameraController extends ValueNotifier<CameraValue> {
   /// The returned list may be empty if the platform does not support
   /// video stabilization or if the native implementation has not been added.
   Future<Iterable<VideoStabilizationMode>>
-      getSupportedVideoStabilizationModes() {
+  getSupportedVideoStabilizationModes() {
     _throwIfNotInitialized('getSupportedVideoStabilizationModes');
     try {
-      return CameraPlatform.instance
-          .getSupportedVideoStabilizationModes(_cameraId);
+      return CameraPlatform.instance.getSupportedVideoStabilizationModes(
+        _cameraId,
+      );
     } on PlatformException catch (e) {
       throw CameraException(e.code, e.message);
     }
@@ -988,8 +990,10 @@ class CameraController extends ValueNotifier<CameraValue> {
     }
 
     try {
-      await CameraPlatform.instance
-          .setVideoStabilizationMode(_cameraId, modeToSet);
+      await CameraPlatform.instance.setVideoStabilizationMode(
+        _cameraId,
+        modeToSet,
+      );
       value = value.copyWith(videoStabilizationMode: modeToSet);
     } on PlatformException catch (e) {
       throw CameraException(e.code, e.message);
@@ -1021,8 +1025,7 @@ class CameraController extends ValueNotifier<CameraValue> {
       if (supportedModes.contains(candidate)) {
         return candidate;
       }
-      candidate =
-          CameraPlatform.getFallbackVideoStabilizationMode(candidate);
+      candidate = CameraPlatform.getFallbackVideoStabilizationMode(candidate);
     }
 
     // No supported mode found in the fallback chain — no-op.

@@ -150,8 +150,7 @@ class FakeController extends ValueNotifier<CameraValue>
 
   @override
   Future<Iterable<VideoStabilizationMode>>
-      getSupportedVideoStabilizationModes() async =>
-          <VideoStabilizationMode>[];
+  getSupportedVideoStabilizationModes() async => <VideoStabilizationMode>[];
 
   @override
   Future<void> setVideoStabilizationMode(

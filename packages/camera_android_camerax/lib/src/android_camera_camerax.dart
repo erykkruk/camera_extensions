@@ -1712,7 +1712,9 @@ class AndroidCameraCameraX extends CameraPlatform {
     }
 
     // ignore: avoid_print
-    print('[CameraExtensions] Requesting 1:1 format: ${squareSize.width}x${squareSize.height}');
+    print(
+      '[CameraExtensions] Requesting 1:1 format: ${squareSize.width}x${squareSize.height}',
+    );
 
     final resolutionStrategy = ResolutionStrategy(
       boundSize: squareSize,

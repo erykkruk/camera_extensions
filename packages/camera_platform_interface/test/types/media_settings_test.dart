@@ -101,7 +101,14 @@ void main() {
 
     expect(
       settings.hashCode,
-      Object.hash(ResolutionPreset.low, 20, 128000, 32000, true),
+      Object.hash(
+        ResolutionPreset.low,
+        20,
+        128000,
+        32000,
+        true,
+        CameraAspectRatio.ratioDefault,
+      ),
       reason:
           'MediaSettings hash() should be equal to Object.hash of parameters',
     );

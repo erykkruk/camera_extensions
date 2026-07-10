@@ -1457,6 +1457,17 @@ class MockImageCapture extends _i1.Mock implements _i2.ImageCapture {
           as _i5.Future<String>);
 
   @override
+  _i5.Future<_i7.Uint8List> takePictureAsBytes() =>
+      (super.noSuchMethod(
+            Invocation.method(#takePictureAsBytes, []),
+            returnValue: _i5.Future<_i7.Uint8List>.value(_i7.Uint8List(0)),
+            returnValueForMissingStub: _i5.Future<_i7.Uint8List>.value(
+              _i7.Uint8List(0),
+            ),
+          )
+          as _i5.Future<_i7.Uint8List>);
+
+  @override
   _i5.Future<void> setTargetRotation(int? rotation) =>
       (super.noSuchMethod(
             Invocation.method(#setTargetRotation, [rotation]),
