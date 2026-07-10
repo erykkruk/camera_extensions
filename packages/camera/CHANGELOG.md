@@ -2,6 +2,7 @@
 
 ## 1.2.4
 
+* Excludes generated example artifacts (`GeneratedPluginRegistrant.java`, `local.properties`) from the repository so `pub publish` runs warning-free.
 * Verified compatibility with the upstream `camera` 0.12.0+1 API surface
   (video stabilization + `takePictureAsBytes`), keeping the native aspect-ratio
   support (16:9, 4:3, 1:1) on Android (CameraX) and iOS (AVFoundation).
