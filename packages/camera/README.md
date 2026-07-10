@@ -8,6 +8,12 @@ Fork of the official [camera](https://pub.dev/packages/camera) package with sens
 |----------------|---------|-----------|
 | **Support**    | SDK 24+ | iOS 13.0+ |
 
+## Documentation
+
+- [Overview](https://codigee.com/open-source/camera-extended)
+- [API reference](https://codigee.com/open-source/camera-extended/api)
+- [Aspect ratio guide](https://codigee.com/open-source/camera-extended/guide)
+
 ## What's New vs Original Camera Package
 
 | Feature | camera | camera_extended |

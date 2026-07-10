@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.5
+
+* Sets the pubspec `documentation:` field and adds a **Documentation** section to
+  the README so the pub.dev "Documentation" link points to the hosted docs at
+  codigee.com/open-source/camera-extended (overview, API reference, aspect ratio guide).
+
 ## 1.2.4
 
 * Excludes generated example artifacts (`GeneratedPluginRegistrant.java`, `local.properties`) from the repository so `pub publish` runs warning-free.
