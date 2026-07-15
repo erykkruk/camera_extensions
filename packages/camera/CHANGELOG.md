@@ -1,3 +1,7 @@
+## 1.2.6
+
+- Maintenance release.
+
 # Changelog
 
 ## 1.2.5
