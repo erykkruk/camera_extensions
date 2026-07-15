@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+* Fixed `MissingPluginException` on `startImageStream` — the native `EventChannel` was still registered as `plugins.flutter.io/camera_avfoundation/imageStream` instead of `plugins.flutter.io/camera_extended_ios/imageStream` (thanks @iamv4g)
+
 ## 1.2.0
 
 * Version bump to match `camera_extended` 1.2.0
