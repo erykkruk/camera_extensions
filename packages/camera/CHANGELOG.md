@@ -1,3 +1,7 @@
+## 1.2.8
+
+- Android builds work on JDK 22 and newer. Requires `camera_extended_android` 1.2.1. Run `flutter pub upgrade camera_extended_android` if your lockfile pins an older version.
+
 ## 1.2.7
 
 - iOS builds work again with Swift Package Manager, which Flutter now enables by default. Requires `camera_extended_ios` 1.2.1, which also fixes the `MissingPluginException` on `startImageStream`. Run `flutter pub upgrade camera_extended_ios` if your lockfile pins an older version.
