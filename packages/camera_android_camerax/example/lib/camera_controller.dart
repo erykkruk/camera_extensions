@@ -716,6 +716,9 @@ class CameraController extends ValueNotifier<CameraValue> {
   Future<double> getMinExposureOffset() async {
     _throwIfNotInitialized('getMinExposureOffset');
     try {
+      // Awaiting would turn the PlatformException callers get today
+      // into a CameraException.
+      // ignore: unawaited_return_in_try_block
       return CameraPlatform.instance.getMinExposureOffset(_cameraId);
     } on PlatformException catch (e) {
       throw CameraException(e.code, e.message);
@@ -726,6 +729,9 @@ class CameraController extends ValueNotifier<CameraValue> {
   Future<double> getMaxExposureOffset() async {
     _throwIfNotInitialized('getMaxExposureOffset');
     try {
+      // Awaiting would turn the PlatformException callers get today
+      // into a CameraException.
+      // ignore: unawaited_return_in_try_block
       return CameraPlatform.instance.getMaxExposureOffset(_cameraId);
     } on PlatformException catch (e) {
       throw CameraException(e.code, e.message);
@@ -738,6 +744,9 @@ class CameraController extends ValueNotifier<CameraValue> {
   Future<double> getExposureOffsetStepSize() async {
     _throwIfNotInitialized('getExposureOffsetStepSize');
     try {
+      // Awaiting would turn the PlatformException callers get today
+      // into a CameraException.
+      // ignore: unawaited_return_in_try_block
       return CameraPlatform.instance.getExposureOffsetStepSize(_cameraId);
     } on PlatformException catch (e) {
       throw CameraException(e.code, e.message);
@@ -783,6 +792,9 @@ class CameraController extends ValueNotifier<CameraValue> {
     }
 
     try {
+      // Awaiting would turn the PlatformException callers get today
+      // into a CameraException.
+      // ignore: unawaited_return_in_try_block
       return CameraPlatform.instance.setExposureOffset(_cameraId, offset);
     } on PlatformException catch (e) {
       throw CameraException(e.code, e.message);
