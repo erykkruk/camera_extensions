@@ -50,10 +50,4 @@ jobs:
         with:
           channel: stable
           cache: true
-      # Matches the JDK bundled with Android Studio. On JDK 17 the plugin fails
-      # with "Cannot attach type annotations" on camera-core.
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "21"
       - run: bash .github/scripts/build_fresh_app.sh ${{ matrix.target }} ${{ matrix.swiftpm }}

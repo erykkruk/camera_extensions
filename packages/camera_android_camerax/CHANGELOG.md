@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+* Fixes the Android build failing with `Cannot attach type annotations` on JDK 22 and newer. The new dependency is compile-only, so nothing changes at runtime.
+
 ## 1.2.0
 
 * Version bump to match `camera_extended` 1.2.0
