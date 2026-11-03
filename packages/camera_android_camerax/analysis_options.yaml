@@ -3,3 +3,5 @@ analyzer:
     # Mockito-generated mocks carry a redundant ignore comment (duplicate_ignore)
     # that cannot be fixed without editing generated output.
     - "test/**.mocks.dart"
+    - build/**
+    - android/**

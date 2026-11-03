@@ -7,18 +7,21 @@
 import PackageDescription
 
 let package = Package(
-  name: "camera_avfoundation",
+  name: "camera_extended_ios",
   platforms: [
     .iOS("13.0")
   ],
   products: [
     .library(
-      name: "camera-avfoundation", targets: ["camera_avfoundation", "camera_avfoundation_objc"])
+      name: "camera-extended-ios", targets: ["camera_extended_ios", "camera_avfoundation_objc"])
   ],
   dependencies: [],
   targets: [
+    // Flutter's generated registrant does `@import camera_extended_ios;`, so
+    // the module declaring CameraPlugin must carry the plugin's name. The
+    // sources stay in the upstream-named folder to keep the fork easy to sync.
     .target(
-      name: "camera_avfoundation",
+      name: "camera_extended_ios",
       dependencies: ["camera_avfoundation_objc"],
       path: "Sources/camera_avfoundation",
       resources: [

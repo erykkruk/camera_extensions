@@ -2,6 +2,7 @@
 
 ## 1.2.1
 
+* Fixed iOS builds failing with Swift Package Manager, which Flutter now enables by default (`product 'camera-extended-ios' ... not found in package 'camera_extended_ios'`). `Package.swift` still used the upstream `camera_avfoundation` names and `camera_extended_ios.h` could not find its headers in the nested layout (thanks @alihassan-pixel)
 * Fixed `MissingPluginException` on `startImageStream` — the native `EventChannel` was still registered as `plugins.flutter.io/camera_avfoundation/imageStream` instead of `plugins.flutter.io/camera_extended_ios/imageStream` (thanks @iamv4g)
 
 ## 1.2.0
